@@ -26,6 +26,8 @@ namespace Frantics_PDF_Helper
 		{
 			InitializeComponent();
 
+			this.Title = Localisation.GetLocalisedString("_AppName");
+
 			var assembly = Assembly.GetExecutingAssembly();
 			var resourceName = "Frantics_PDF_Helper.Resources.Splash.png";
 

@@ -43,6 +43,8 @@ namespace Frantics_PDF_Helper
 		{
 			InitializeComponent();
 
+			this.Title = Localisation.GetLocalisedString("_AppName");
+
 			cutCompleteButton.IsEnabled = false;
 			cutModeButton.Foreground = cutModeOffBrush;
 		}

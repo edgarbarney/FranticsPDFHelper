@@ -6,13 +6,13 @@
 		xmlns:local="clr-namespace:Frantics_PDF_Helper"
 		mc:Ignorable="d"
         
-		Title="SelectPDFWindow"
+		Title="SelectPDFWindow" 
         Height="450"
         Width="800"
         WindowStartupLocation="CenterScreen"
 		ResizeMode="NoResize">
     <Grid>
-        <Button Content="" HorizontalAlignment="Center" Margin="0,291,0,0" VerticalAlignment="Top"/>
+        <Button x:Name="selectPDFButton" Content="LoadPDFFile" Tag="LocKey:'SelectPDFWindow.LoadPDFFile'" HorizontalAlignment="Center" Margin="0,386,0,0" VerticalAlignment="Top" Height="38" Width="310"/>
 
     </Grid>
 </Window>

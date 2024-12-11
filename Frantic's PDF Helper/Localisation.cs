@@ -1,5 +1,5 @@
 ﻿using System.IO;
-using System.Security.RightsManagement;
+using System.Windows.Controls;
 using Newtonsoft.Json;
 
 namespace Frantics_PDF_Helper
@@ -81,7 +81,7 @@ namespace Frantics_PDF_Helper
 		public static Language currentLanguage = defaultLanguage;
 
 		public const string languageDataPath = "Resources/Localisation";
-		public const string selectedLanguageFile = "SelectedLanguage.txt";
+		public const string selectedLanguageFile = "Resources/Localisation/SelectedLanguage.txt"; //Path.Combine(languageDataPath, "SelectedLanguage.txt");
 
 		private static void AddNewLanguage(string langName, string langCode)
 		{
@@ -133,7 +133,7 @@ namespace Frantics_PDF_Helper
 
 						foreach (KeyValuePair<string, string> p in dict)
 						{
-							if (p.Key == "_languageName")
+							if (p.Key == "_LanguageName")
 							{
 								AddNewLanguage(p.Value, langCode);
 							}
@@ -151,10 +151,9 @@ namespace Frantics_PDF_Helper
 				} 
 			}
 
-			var selectedLangPath = Path.Combine(languageDataPath, selectedLanguageFile);
-			if (File.Exists(selectedLangPath))
+			if (File.Exists(selectedLanguageFile))
 			{
-				var selectedLang = File.ReadAllText(selectedLangPath);
+				var selectedLang = File.ReadAllText(selectedLanguageFile);
 				if (LanguageNames.ContainsKey(selectedLang))
 				{
 					currentLanguage = new Language(selectedLang, LanguageNames[selectedLang]);
@@ -163,7 +162,7 @@ namespace Frantics_PDF_Helper
 			else
 			{
 				//var selectedLang = File.Create(selectedLangPath);
-				File.WriteAllText(selectedLangPath, defaultLanguage.LanguageCode);
+				File.WriteAllText(selectedLanguageFile, defaultLanguage.LanguageCode);
 			}
 		}
 
@@ -175,6 +174,60 @@ namespace Frantics_PDF_Helper
 		public static string GetCurrentLanguageCode()
 		{
 			return currentLanguage.LanguageCode;
+		}
+
+		public static string GetLocalisedString(string key)
+		{
+			//	if (MainLocalisationData.ContainsKey(currentLanguage.LanguageCode))
+			//	{
+			//		if (MainLocalisationData[currentLanguage.LanguageCode].ContainsKey(key))
+			//		{
+			//			return MainLocalisationData[currentLanguage.LanguageCode][key];
+			//		}
+			//	}
+			//	
+			//	return key;
+
+			if (MainLocalisationData.TryGetValue(currentLanguage.LanguageCode, out var langDict) && langDict.TryGetValue(key, out var value))
+			{
+				return value;
+			}
+
+			// Get the last part of the placeholder phrase.
+			int lastDotIndex = key.LastIndexOf('.');
+			if (lastDotIndex != -1)
+			{
+				//return key.Substring(lastDotIndex + 1);
+				return key[(lastDotIndex + 1)..];
+			}
+			return key;
+		}
+
+		/// <summary>
+		/// Sets the content of a button based on its tag. Tag should be in the format "LocKey:'key'".
+		/// </summary>
+		/// 
+		/// <param name="button">Button with tag to change content of</param>
+		public static void SetTaggedButtonContent(Button button)
+		{
+			string? tagValue = button.Tag.ToString();
+
+			if (tagValue == null)
+			{
+				// TODO: Log error, or throw exception?
+				return;
+			}
+
+			button.Content = GetLocalisedString(Utilities.StringUtilities.GetXamlTagKeyValue(tagValue, "LocKey"));
+		}
+
+		public static void SetCurrentLanguage(string langCode)
+		{
+			if (LanguageNames.ContainsKey(langCode))
+			{
+				currentLanguage = new Language(LanguageNames[langCode], langCode);
+				File.WriteAllText(Path.Combine(languageDataPath, selectedLanguageFile), langCode);
+			}
 		}
 	}
 }
