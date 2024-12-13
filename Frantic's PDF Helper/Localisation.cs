@@ -11,60 +11,59 @@ namespace Frantics_PDF_Helper
 		/// Contains information about a language.
 		/// Name and Code are the two main properties.
 		/// </summary>
-		public struct Language
+		public struct Language(string langName, string langCode)
 		{
-			private string languageName;
-			private string languageCode;
-
-			public Language(string langName, string langCode)
-			{
-				languageName = langName;
-				languageCode = langCode;
-			}
+			private string languageName = langName;
+			private string languageCode = langCode;
 
 			public string LanguageName
 			{
-				get { return languageName; }
+				readonly get { return languageName; }
 				set { languageName = value; }
 			}
 
 			public string LanguageCode
 			{
-				get { return languageCode; }
+				readonly get { return languageCode; }
 				set { languageCode = value; }
 			}
-			
+
+			public readonly override bool Equals(object? obj)
+			{
+				if (obj != null && obj is Language language)
+				{
+					Language other = language;
+					return other.LanguageCode == this.LanguageCode;
+				}
+				return false;
+			}
+
+			public readonly override int GetHashCode() => this.LanguageCode.GetHashCode();
+
+			/// <summary>
+			/// Checks if this language's code is identical to the given language code.
+			/// </summary>
+			/// <param name="langCode">Language Name to check for.</param>
+			public readonly bool IsLanguageCode(string langCode) => langCode == this.LanguageCode;
+
+			/// <summary>
+			/// Checks if this language's name is identical to the given language name.
+			/// </summary>
+			/// <param name="langName">Language Code to check for.</param>
+			public readonly bool IsLanguageName(string langName) => langName == this.LanguageName;
+
 		}
 
 		/// <summary>
-		/// Contains language codes (as keys) and their corresponding names (as values).
+		/// Contains available languages
 		/// </summary>
-		/// 
-		/// <remarks>
-		/// Example: "en-GB" -> "English"
-		/// </remarks>
-		public static Dictionary<string, string> LanguageNames = new()
-		{
+		public static List<Language> AvailableLanguages =
+		[
 			// Example structure.
 			// This will be populised by RefreshLocalistaion() method.
-			{ "en-GB", "English" },
-			{ "tr-TR", "Turkce" },
-		};
-
-		/// <summary>
-		/// Contains language names (as keys) and their corresponding codes (as values).
-		/// </summary>
-		/// 
-		/// <remarks>
-		/// Example: "English" -> "en-GB"
-		/// </remarks>
-		public static Dictionary<string, string> LanguageCodes = new()
-		{
-			// Example structure.
-			// This will be populised by RefreshLocalistaion() method.
-			{ "English", "en-GB" },
-			{ "Turkce",	"tr-TR" },
-		};
+			new Language("English",	"en-GB"),
+			new Language("Turkce",	"tr-TR"),
+		];
 
 		/// <summary>
 		/// Contains key-value pairs for each localised string, as a dictionary of dictionaries.
@@ -85,17 +84,17 @@ namespace Frantics_PDF_Helper
 
 		private static void AddNewLanguage(string langName, string langCode)
 		{
-			if (!LanguageNames.ContainsKey(langName))
+			var newLang = new Language(langName, langCode);
+
+			if (!AvailableLanguages.Contains(newLang))
 			{
-				LanguageNames.Add(langName, langCode);
-				LanguageCodes.Add(langCode, langName);
+				AvailableLanguages.Add(newLang);
 			}
 		}
 
 		private static void ClearLocalisationData()
 		{
-			LanguageNames.Clear();
-			LanguageCodes.Clear();
+			AvailableLanguages.Clear();
 			MainLocalisationData.Clear();
 			currentLanguage = defaultLanguage;
 		}
@@ -141,7 +140,7 @@ namespace Frantics_PDF_Helper
 							//{
 								if (!MainLocalisationData.ContainsKey(langCode))
 								{
-									MainLocalisationData.Add(langCode, new Dictionary<string, string>());
+									MainLocalisationData.Add(langCode, []);
 								}
 
 								MainLocalisationData[langCode].Add(p.Key, p.Value);
@@ -154,9 +153,9 @@ namespace Frantics_PDF_Helper
 			if (File.Exists(selectedLanguageFile))
 			{
 				var selectedLang = File.ReadAllText(selectedLanguageFile);
-				if (LanguageNames.ContainsKey(selectedLang))
+				if (AvailableLanguages.Any(lang => lang.IsLanguageCode(selectedLang)))
 				{
-					currentLanguage = new Language(selectedLang, LanguageNames[selectedLang]);
+					currentLanguage = AvailableLanguages.First(lang => lang.IsLanguageCode(selectedLang));
 				}
 			}
 			else
@@ -223,10 +222,10 @@ namespace Frantics_PDF_Helper
 
 		public static void SetCurrentLanguage(string langCode)
 		{
-			if (LanguageNames.ContainsKey(langCode))
+			if (AvailableLanguages.Any(lang => lang.IsLanguageCode(langCode)))
 			{
-				currentLanguage = new Language(LanguageNames[langCode], langCode);
-				File.WriteAllText(Path.Combine(languageDataPath, selectedLanguageFile), langCode);
+				currentLanguage = AvailableLanguages.First(lang => lang.IsLanguageCode(langCode));
+				File.WriteAllText(selectedLanguageFile, langCode);
 			}
 		}
 	}
