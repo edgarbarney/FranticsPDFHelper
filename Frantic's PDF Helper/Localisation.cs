@@ -203,11 +203,11 @@ namespace Frantics_PDF_Helper
 		}
 
 		/// <summary>
-		/// Sets the content of a button based on its tag. Tag should be in the format "LocKey:'key'".
+		/// Sets the content and tooltip of a button based on its tag. Tag should be in the format "LocKey:'key'".
 		/// </summary>
 		/// 
-		/// <param name="button">Button with tag to change content of</param>
-		public static void SetTaggedButtonContent(Button button)
+		/// <param name="button">Button with tag to change content and tooltip of</param>
+		public static void SetTaggedButtonContent(Button button, bool tooltip = false)
 		{
 			string? tagValue = button.Tag.ToString();
 
@@ -218,6 +218,9 @@ namespace Frantics_PDF_Helper
 			}
 
 			button.Content = GetLocalisedString(Utilities.StringUtilities.GetXamlTagKeyValue(tagValue, "LocKey"));
+			
+			if (tooltip)
+				button.ToolTip = GetLocalisedString(Utilities.StringUtilities.GetXamlTagKeyValue(tagValue, "LocKey") + ".Tooltip");
 		}
 
 		public static void SetCurrentLanguage(string langCode)

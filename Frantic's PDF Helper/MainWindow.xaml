@@ -25,10 +25,9 @@
 		</Style>
 	</Window.Resources>
 	<Grid Background="#333">
-		<Button x:Name="closeButton" Content="⨯" Click="CloseMainWindowButton" FontFamily="ArialBlack" FontSize="100" Foreground="#900" VerticalAlignment="Top" HorizontalAlignment="Right" Height="128" Width="128"/>
+        <Button x:Name="closeButton" Content="⨯" Click="CloseMainWindowButton_Click" FontFamily="ArialBlack" FontSize="100" Foreground="#900" VerticalAlignment="Top" HorizontalAlignment="Right" Height="128" Width="128"/>
 		<Image x:Name="mainPaper" Height="891" Width="630"/>
-		<Button x:Name="cutModeButton" Content="✀" Click="CutModeButton" FontFamily="ArialBlack" FontSize="50" Foreground="#009" VerticalAlignment="Bottom" HorizontalAlignment="Left" Height="128" Width="128"/>
-		<Button x:Name="cutCompleteButton" Content="✀" Click="CutCompleteButton" FontFamily="ArialBlack" FontSize="50" Foreground="#060" VerticalAlignment="Bottom" HorizontalAlignment="Left" Height="128" Width="128" Margin="133,0,0,0"/>
-		<Viewbox/>
-	</Grid>
+        <Button x:Name="cutModeButton" Content="✀" Click="CutModeButton_Click" FontFamily="ArialBlack" FontSize="50" Foreground="#009" VerticalAlignment="Bottom" HorizontalAlignment="Left" Height="128" Width="128"/>
+        <Button x:Name="cutCompleteButton" Content="✀" Click="CutCompleteButton_Click" FontFamily="ArialBlack" FontSize="50" Foreground="#060" VerticalAlignment="Bottom" HorizontalAlignment="Left" Height="128" Width="128" Margin="133,0,0,0"/>
+    </Grid>
 </Window>

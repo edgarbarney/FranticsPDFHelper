@@ -5,14 +5,19 @@
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		xmlns:local="clr-namespace:Frantics_PDF_Helper"
 		mc:Ignorable="d"
-        
+		
 		Title="SelectPDFWindow" 
-        Height="450"
-        Width="800"
-        WindowStartupLocation="CenterScreen"
-		ResizeMode="NoResize">
-    <Grid>
-        <Button x:Name="selectPDFButton" Content="LoadPDFFile" Tag="LocKey:'SelectPDFWindow.LoadPDFFile'" HorizontalAlignment="Center" Margin="0,386,0,0" VerticalAlignment="Top" Height="38" Width="310"/>
-
+		Height="450"
+		Width="800"
+		WindowStartupLocation="CenterScreen"
+		ResizeMode="NoResize"
+        
+        Closing="Window_Closing">
+    <Grid VerticalAlignment="Center" HorizontalAlignment="Center" Width="780" Height="410">
+        <Button x:Name="loadFileButton" Click="LoadFileButton_Click" Content="LoadPDFFile" Tag="LocKey:'SelectPDFWindow.LoadPDFFile'" HorizontalAlignment="Center" Margin="0,360,0,0" VerticalAlignment="Top" Height="38" Width="310"/>
+        <Grid Margin="90,322,90,52">
+            <TextBox x:Name="pdfFileDirTextBox" TextWrapping="Wrap" Text="" HorizontalAlignment="Left" VerticalAlignment="Center" Width="541" Height="22"/>
+            <Button x:Name="browseFileButton" Click="BrowseFileButton_Click" Content="Browz" Tag="LocKey:'SelectPDFWindow.Browse'" VerticalAlignment="Center" Height="30" Width="54" HorizontalAlignment="Right" Grid.Column="1" Margin="197,0,0,0"/>
+        </Grid>
     </Grid>
 </Window>

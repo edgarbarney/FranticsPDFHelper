@@ -1,5 +1,10 @@
 ﻿{
   "_LanguageName": "English (International)",
   "_AppName": "Frantic's PDF Reader",
-  "SelectPDFWindow.LoadPDFFile": "Load PDF File"
+  "SelectPDFWindow.LoadPDFFile": "Load PDF File",
+  "SelectPDFWindow.LoadPDFFile.Tooltip": "Select the chosen PDF file.",
+  "SelectPDFWindow.Browse": "Browse",
+  "SelectPDFWindow.Browse.Tooltip": "Browse for a PDF file to open.",
+  "OpenFileDialog.pdfFiles": "PDF Files",
+  "OpenFileDialog.allFiles": "All files"
 }
