@@ -1,10 +1,14 @@
 ﻿{
   "_LanguageName": "English (International)",
   "_AppName": "Frantic's PDF Reader",
+  "PDFCacheMode.NoCache": "No Cache",
+  "PDFCacheMode.OnPageChange": "On Page Change",
+  "PDFCacheMode.FullPDF": "Full PDF",
   "SelectPDFWindow.LoadPDFFile": "Load PDF File",
   "SelectPDFWindow.LoadPDFFile.Tooltip": "Select the chosen PDF file.",
   "SelectPDFWindow.Browse": "Browse",
   "SelectPDFWindow.Browse.Tooltip": "Browse for a PDF file to open.",
+  "SelectPDFWindow.CacheModeLabel": "Cache Mode",
   "OpenFileDialog.pdfFiles": "PDF Files",
   "OpenFileDialog.allFiles": "All files"
 }

@@ -10,13 +10,13 @@ namespace Frantics_PDF_Helper.Utilities
 		/// </summary>
 		/// 
 		/// <example>
-		/// "LocKey:'SelectPDFWindow.LoadPDFFile', Kracker:13443, Vary:25.45643,";
+		/// "LocKey:'SelectPDFWindow.LoadPDFFile', AnotherXamlTag:13443, TagOfXaml:25.45643,";
 		/// </example>
 		/// 
 		/// <param name="input">The string to parse</param>
 		/// <param name="key">Key to look for</param>
 		/// <returns>The corresponding value of the key</returns>
-		public static string GetXamlTagKeyValue(string input, string key)
+		public static string GetXamlTagKeyValue(string? input, string key)
 		{
 			if (string.IsNullOrWhiteSpace(input) || string.IsNullOrWhiteSpace(key))
 			{

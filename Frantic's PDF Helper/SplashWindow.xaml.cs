@@ -26,6 +26,8 @@ namespace Frantics_PDF_Helper
 		{
 			InitializeComponent();
 
+			Settings.LoadSettings();
+
 			this.Title = Localisation.GetLocalisedString("_AppName");
 
 			var assembly = Assembly.GetExecutingAssembly();

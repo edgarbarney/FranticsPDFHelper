@@ -1,9 +1,11 @@
-﻿using Microsoft.Win32;
-using System;
+﻿using System;
 using System.IO;
 using System.Windows;
-using System.Windows.Controls;
+using Microsoft.Win32;
+using Frantics_PDF_Helper.Utilities;
 
+using Window = System.Windows.Window;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace Frantics_PDF_Helper
 {
@@ -12,18 +14,35 @@ namespace Frantics_PDF_Helper
 	/// </summary>
 	public partial class SelectPDFWindow : Window
 	{
-		Microsoft.Win32.OpenFileDialog fileDialog = new();
+		OpenFileDialog fileDialog = new();
 		MainWindow mainWindow = new();
 
+		/// <summary>
+		/// Is this window safe to close?
+		/// If not, we will shut down the application instead.
+		/// Otherwise the app may keep running in the background.
+		/// </summary>
 		public bool isSafeToClose = false;
-
 		public SelectPDFWindow()
 		{
 			InitializeComponent();
 
-			this.Title = Localisation.GetLocalisedString("_AppName");
-			Localisation.SetTaggedButtonContent(loadFileButton, true);
-			Localisation.SetTaggedButtonContent(browseFileButton, true);
+			Localisation.LocaliseWindow(this);
+
+			//this.Title = Localisation.GetLocalisedString("_AppName");
+			//Localisation.SetTaggedButtonContent(loadFileButton, true);
+			//Localisation.SetTaggedButtonContent(browseFileButton, true);
+
+			foreach (PDFCacheMode mode in Enum.GetValues(typeof(PDFCacheMode)))
+			{
+				cacheModeComboBox.Items.Add(Localisation.GetLocalisedEnumString<PDFCacheMode>(mode));
+			}
+
+			// This is done in SplashWindow
+			//Settings.LoadSettings();
+			cacheModeComboBox.SelectedIndex = (int)Settings.Instance.CacheMode;
+			pdfFileDirTextBox.Text = Settings.Instance.LastPDFPath;
+
 		}
 
 		private void BrowseFileButton_Click (object sender, RoutedEventArgs e)
@@ -45,8 +64,15 @@ namespace Frantics_PDF_Helper
 				return;
 			}
 
+			Settings.Instance.LastPDFPath = pdfFileDirTextBox.Text;
+			Settings.Instance.CacheMode = (PDFCacheMode)cacheModeComboBox.SelectedIndex;
+			Settings.SaveSettings();
+
 			// Load PDF file
 			mainWindow.LoadPDF(pdfFileDirTextBox.Text);
+			mainWindow.Show();
+			isSafeToClose = true;
+			this.Close();
 		}
 
 		private void Window_Closing (object sender, System.ComponentModel.CancelEventArgs e)

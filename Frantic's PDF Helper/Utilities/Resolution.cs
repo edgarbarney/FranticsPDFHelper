@@ -1,19 +1,31 @@
-﻿namespace Frantics_PDF_Helper.Utilities
+﻿using Frantics_PDF_Helper.Utilities;
+
+namespace Frantics_PDF_Helper.Utilities
 {
 	enum PaperType
 	{
-		A0,
-		A1,
-		A2,
-		A3,
+		// ISO
 		A4,
-		A5
+		ISO = A4,
+		// US Letter
+		Letter,
+		Legal,
+		Tabloid,
 	}
 
 	struct Resolution(int width, int height)
 	{
 		private int width = width;
 		private int height = height;
+
+		// A lookup table for paper sizes
+		private static readonly Dictionary<PaperType, Resolution> PaperResolutions = new()
+		{
+			{ PaperType.A4, new(210, 297) },
+			{ PaperType.Letter, new(216, 279) },
+			{ PaperType.Legal, new(216, 356) },
+			{ PaperType.Tabloid, new(279, 432) }
+		};
 
 		public int Width
 		{
@@ -67,25 +79,19 @@
 
 		public static Resolution PaperSize(PaperType paper = PaperType.A4)
 		{
-			switch(paper)
-			{
-				default:
-				case PaperType.A4:
-					return new(210, 297);
-
-				case PaperType.A0:
-					return new(841, 1189);
-				case PaperType.A1:
-					return new(594, 841);
-				case PaperType.A2:
-					return new(420, 594);
-				case PaperType.A3:
-					return new(297, 420);
-				//case PaperType.A4:
-				//	return new(210, 297);
-				case PaperType.A5:
-					return new(148, 210);
-			}
+			return PaperResolutions[paper];
+			//switch(paper)
+			//{
+			//	default:
+			//	case PaperType.A4:
+			//		return new(210, 297);
+			//	case PaperType.Letter:
+			//		return new(216, 279);
+			//	case PaperType.Legal:
+			//		return new(216, 356);
+			//	case PaperType.Tabloid:
+			//		return new(279, 432);
+			//}
 		}
 
 		public static Resolution PaperSize(int scale, PaperType paper = PaperType.A4)

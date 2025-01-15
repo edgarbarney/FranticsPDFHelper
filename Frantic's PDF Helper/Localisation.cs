@@ -1,6 +1,8 @@
 ﻿using System.IO;
+using System.Windows;
 using System.Windows.Controls;
 using Newtonsoft.Json;
+using Frantics_PDF_Helper.Utilities;
 
 namespace Frantics_PDF_Helper
 {
@@ -203,11 +205,41 @@ namespace Frantics_PDF_Helper
 		}
 
 		/// <summary>
+		/// Check if this key exists in the localisation data.
+		/// Used mainly for tooltips.
+		/// </summary>
+		/// <param name="key"></param>
+		/// <returns></returns>
+		public static bool DoesLocalisedKeyExist(string key)
+		{
+			if (MainLocalisationData.TryGetValue(currentLanguage.LanguageCode, out var langDict) && langDict.TryGetValue(key, out var value))
+			{
+				return true;
+			}
+			return false;
+		}
+
+		public static string GetLocalisedEnumString<T>(T enumValue)
+		{
+			string? enumName = string.Empty;
+
+			if (enumValue != null)
+			{
+				enumName = Enum.GetName(typeof(T), enumValue);
+			}
+
+			string enumKey = $"{typeof(T).Name}.{enumName}";
+			return GetLocalisedString(enumKey);
+		}
+
+		/*
+		/// <summary>
 		/// Sets the content and tooltip of a button based on its tag. Tag should be in the format "LocKey:'key'".
 		/// </summary>
 		/// 
 		/// <param name="button">Button with tag to change content and tooltip of</param>
-		public static void SetTaggedButtonContent(Button button, bool tooltip = false)
+		/// <param name="tooltip">Whether to set the tooltip or not</param>
+		public static void SetTaggedButtonContent(Button button, bool tooltip = true)
 		{
 			string? tagValue = button.Tag.ToString();
 
@@ -217,10 +249,110 @@ namespace Frantics_PDF_Helper
 				return;
 			}
 
-			button.Content = GetLocalisedString(Utilities.StringUtilities.GetXamlTagKeyValue(tagValue, "LocKey"));
+			button.Content = GetLocalisedString(StringUtilities.GetXamlTagKeyValue(tagValue, "LocKey"));
 			
 			if (tooltip)
-				button.ToolTip = GetLocalisedString(Utilities.StringUtilities.GetXamlTagKeyValue(tagValue, "LocKey") + ".Tooltip");
+				button.ToolTip = GetLocalisedString(StringUtilities.GetXamlTagKeyValue(tagValue, "LocKey") + ".Tooltip");
+		}
+		*/
+
+		public static void LocaliseWindow(Window window)
+		{
+			string? tagValue = string.Empty;
+			string keyValue = "";
+
+			// Window title is always the app name.
+			window.Title = GetLocalisedString("_AppName");
+
+			foreach (var childControl in WPFControlUtilities.GetChildren((System.Windows.Media.Visual)window.Content))
+			{
+				if (childControl is ContentControl contentControl)
+				{
+					if (contentControl.Tag == null)
+					{
+						continue;
+					}
+
+					tagValue = contentControl.Tag.ToString();
+					keyValue = StringUtilities.GetXamlTagKeyValue(tagValue, "LocKey");
+
+					if (keyValue != null)
+					{
+						contentControl.Content = GetLocalisedString(keyValue);
+					}
+					if (DoesLocalisedKeyExist(keyValue + ".Tooltip"))
+					{
+						contentControl.ToolTip = GetLocalisedString(keyValue + ".Tooltip");
+					}
+				}
+
+				// ========================
+				// Unused code examples, just in case if they are needed in the future.
+				// ========================
+
+				// We're using a general ContentControl check instead.
+				// And SetTaggedButtonContent is deprecated.
+				//
+				//if (childControl is Button button)
+				//{
+				//	SetTaggedButtonContent(button, true);
+				//}
+
+				// This should be handled when the ComboBox is populated.
+				//
+				//else if (childControl is ComboBox comboBox)
+				//{
+				//	foreach (var item in comboBox.Items)
+				//	{
+				//		if (item is ComboBoxItem comboBoxItem)
+				//		{
+				//			tagValue = comboBoxItem.Tag.ToString();
+				//			keyValue = StringUtilities.GetXamlTagKeyValue(tagValue, "LocKey");
+				//			if (keyValue != null)
+				//			{
+				//				comboBoxItem.Content = GetLocalisedString(keyValue);
+				//			}
+				//		}
+				//	}
+				//}
+
+				// We're using a general ContentControl check instead.
+				//
+				//else if (childControl is Label label)
+				//{
+				//	tagValue = label.Tag.ToString();
+				//	keyValue = StringUtilities.GetXamlTagKeyValue(tagValue, "LocKey");
+				//	if (keyValue != null)
+				//	{
+				//		label.Content = GetLocalisedString(keyValue);
+				//	}
+				//}
+				//else if (childControl is CheckBox checkBox)
+				//{
+				//	tagValue = checkBox.Tag.ToString();
+				//	keyValue = StringUtilities.GetXamlTagKeyValue(tagValue, "LocKey");
+				//	if (keyValue != null)
+				//	{
+				//		checkBox.Content = GetLocalisedString(keyValue);
+				//	}
+				//}
+
+				// Not needed for now.
+				// 
+				//else if (childControl is TextBlock textBlock)
+				//{
+				//	tagValue = textBlock.Tag.ToString();
+				//	keyValue = StringUtilities.GetXamlTagKeyValue(tagValue, "LocKey");
+				//	if (keyValue != null)
+				//	{
+				//		textBlock.Text = GetLocalisedString(keyValue);
+				//	}
+				//	if (DoesLocalisedKeyExist(keyValue + ".Tooltip"))
+				//	{
+				//		textBlock.ToolTip = GetLocalisedString(keyValue + ".Tooltip");
+				//	}
+				//}
+			}
 		}
 
 		public static void SetCurrentLanguage(string langCode)

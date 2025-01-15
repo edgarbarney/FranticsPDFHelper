@@ -6,20 +6,14 @@ using System.Windows.Media;
 using PdfiumViewer;
 using SkiaSharp;
 
+using Window = System.Windows.Window;
 using Colour = System.Windows.Media.Color;
 using Brush = System.Windows.Media.Brush;
 using Resolution = Frantics_PDF_Helper.Utilities.Resolution;
 using PaperType = Frantics_PDF_Helper.Utilities.PaperType;
 
-
 namespace Frantics_PDF_Helper
 {
-	enum ImageFormat
-	{
-		Png,
-		Webp
-	}
-
 	/// <summary>
 	/// Interaction logic for MainWindow.xaml
 	/// </summary>
@@ -33,8 +27,6 @@ namespace Frantics_PDF_Helper
 		private PdfDocument? pdfDocument = null;
 		private PdfRenderer pdfRenderer = new();
 		private string pdfHash = "";
-
-		private ImageFormat exportImageFormat = ImageFormat.Png;
 
 		/// <summary>
 		/// Are we currenly trying to crop?
@@ -56,16 +48,6 @@ namespace Frantics_PDF_Helper
 		public MainWindow()
 		{
 			InitializeComponent();
-
-			// Save image as webp if Windows 10 version 17763 or later
-			if (OperatingSystem.IsOSPlatformVersionAtLeast("Windows", 10, 0, 17763))
-			{
-				exportImageFormat = ImageFormat.Webp;
-			}
-			else
-			{
-				exportImageFormat = ImageFormat.Png;
-			}
 
 			this.Title = Localisation.GetLocalisedString("_AppName");
 
@@ -137,9 +119,35 @@ namespace Frantics_PDF_Helper
 			}
 		}
 
+		/// <summary>
+		/// Export an image to a file.
+		/// Filename should also include directory. 
+		/// </summary>
+		/// <remarks>
+		/// The directory in the name must be existing.
+		/// Name shouldn't include the file extension, the function will automatically add it.
+		/// </remarks>
+		/// <param name="image">Input Image</param>
+		/// <param name="name">Exported Filename (including directory)</param>
 		public void ExportImage(System.Drawing.Image image, string name)
 		{
-			switch (exportImageFormat)
+			ExportImage(image, name, Settings.Instance.ExportFormat);
+		}
+
+		/// <summary>
+		/// Export an image to a file.
+		/// Filename should also include directory. 
+		/// </summary>
+		/// <remarks>
+		/// The directory in the name must be existing.
+		/// Name shouldn't include the file extension, the function will automatically add it.
+		/// </remarks>
+		/// <param name="image">Input Image</param>
+		/// <param name="name">Exported Filename (including directory)</param>
+		/// <param name="imgFormat">Exported Image Format</param>
+		public void ExportImage(System.Drawing.Image image, string name, ImageFormat imgFormat)
+		{
+			switch (imgFormat)
 			{
 				case ImageFormat.Png:
 					image.Save($"{name}.png", System.Drawing.Imaging.ImageFormat.Png);
@@ -153,6 +161,11 @@ namespace Frantics_PDF_Helper
 					File.WriteAllBytes($"{name}.webp", webpData.ToArray());
 					break;
 			}
-		}	
+		}
+
+		public void ShowPage(int page)
+		{
+
+		}
 	}
 }
