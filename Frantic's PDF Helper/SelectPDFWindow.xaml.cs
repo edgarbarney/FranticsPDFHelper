@@ -4,9 +4,6 @@ using System.Windows;
 using Microsoft.Win32;
 using Frantics_PDF_Helper.Utilities;
 
-using Window = System.Windows.Window;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
-
 namespace Frantics_PDF_Helper
 {
 	/// <summary>

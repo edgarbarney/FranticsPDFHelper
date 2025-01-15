@@ -258,8 +258,8 @@ namespace Frantics_PDF_Helper
 
 		public static void LocaliseWindow(Window window)
 		{
-			string? tagValue = string.Empty;
-			string keyValue = "";
+			string? tagValue;
+			string keyValue;
 
 			// Window title is always the app name.
 			window.Title = GetLocalisedString("_AppName");

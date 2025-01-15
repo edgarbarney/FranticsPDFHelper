@@ -6,7 +6,6 @@ using System.Windows.Media;
 using PdfiumViewer;
 using SkiaSharp;
 
-using Window = System.Windows.Window;
 using Colour = System.Windows.Media.Color;
 using Brush = System.Windows.Media.Brush;
 using Resolution = Frantics_PDF_Helper.Utilities.Resolution;
