@@ -5,7 +5,7 @@ using System.Reflection;
 
 using DispatcherTimer = System.Windows.Threading.DispatcherTimer;
 
-namespace Frantics_PDF_Helper
+namespace Frantics_PDF_Helper.Windows
 {
 	/// <summary>
 	/// Interaction logic for SplashWindow.xaml
@@ -50,7 +50,7 @@ namespace Frantics_PDF_Helper
 			dispatcherTimer.Interval = new TimeSpan(0, 0, 3);
 			dispatcherTimer.Start();
 
-			Localisation.InıtLocalisation();
+			Localisation.InitLocalisation();
 		}
 	}
 }

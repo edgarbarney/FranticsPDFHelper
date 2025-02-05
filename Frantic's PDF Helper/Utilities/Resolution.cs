@@ -1,4 +1,4 @@
-using System.Drawing;
+﻿using System.Drawing;
 
 namespace Frantics_PDF_Helper.Utilities
 {
@@ -53,6 +53,8 @@ namespace Frantics_PDF_Helper.Utilities
 		public readonly override int GetHashCode() => HashCode.Combine(width, height);
 
 		public readonly override string ToString() => $"{width}x{height}";
+
+		public readonly Point ToPoint() => new(width, height);
 
 		public static bool operator ==(Resolution a, Resolution b) => a.Equals(b);
 

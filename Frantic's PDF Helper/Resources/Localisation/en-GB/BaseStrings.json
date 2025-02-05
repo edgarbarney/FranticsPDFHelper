@@ -1,6 +1,7 @@
 ﻿{
   "_LanguageName": "English (International)",
   "_AppName": "Frantic's PDF Reader",
+  "Generic.CloseAppQuestion": "Are you sure you want to close the app?",
   "PDFCacheMode.NoCache": "No Cache",
   "PDFCacheMode.OnPageChange": "On Page Change",
   "PDFCacheMode.FullPDF": "Full PDF",
@@ -10,5 +11,6 @@
   "SelectPDFWindow.Browse.Tooltip": "Browse for a PDF file to open.",
   "SelectPDFWindow.CacheModeLabel": "Cache Mode",
   "OpenFileDialog.pdfFiles": "PDF Files",
-  "OpenFileDialog.allFiles": "All files"
+  "OpenFileDialog.allFiles": "All files",
+  "MainWindow.EnterPageNumber": "Enter page number: "
 }

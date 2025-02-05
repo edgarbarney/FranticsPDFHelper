@@ -4,7 +4,7 @@ using System.Windows;
 using Microsoft.Win32;
 using Frantics_PDF_Helper.Utilities;
 
-namespace Frantics_PDF_Helper
+namespace Frantics_PDF_Helper.Windows
 {
 	/// <summary>
 	/// Interaction logic for SelectPDFWindow.xaml
