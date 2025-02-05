@@ -102,7 +102,7 @@ namespace Frantics_PDF_Helper
 		}
 
 		// TODO: Should we make this called more clearly?
-		public static void InıtLocalisation()
+		public static void InitLocalisation()
 		{
 			RefreshLocalistaion();
 		}

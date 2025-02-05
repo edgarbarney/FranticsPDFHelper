@@ -1,8 +1,8 @@
-﻿using Frantics_PDF_Helper.Utilities;
+using System.Drawing;
 
 namespace Frantics_PDF_Helper.Utilities
 {
-	enum PaperType
+	public enum PaperType
 	{
 		// ISO
 		A4,
@@ -13,7 +13,8 @@ namespace Frantics_PDF_Helper.Utilities
 		Tabloid,
 	}
 
-	struct Resolution(int width, int height)
+	// A more generic resolution struct instead of Point
+	public struct Resolution(int width, int height)
 	{
 		private int width = width;
 		private int height = height;
@@ -77,22 +78,7 @@ namespace Frantics_PDF_Helper.Utilities
 
 		public static Resolution operator %(Resolution a, int b) => new(a.width % b, a.height % b);
 
-		public static Resolution PaperSize(PaperType paper = PaperType.A4)
-		{
-			return PaperResolutions[paper];
-			//switch(paper)
-			//{
-			//	default:
-			//	case PaperType.A4:
-			//		return new(210, 297);
-			//	case PaperType.Letter:
-			//		return new(216, 279);
-			//	case PaperType.Legal:
-			//		return new(216, 356);
-			//	case PaperType.Tabloid:
-			//		return new(279, 432);
-			//}
-		}
+		public static Resolution PaperSize(PaperType paper = PaperType.A4) => PaperResolutions[paper];
 
 		public static Resolution PaperSize(int scale, PaperType paper = PaperType.A4)
 		{ 

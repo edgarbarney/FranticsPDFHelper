@@ -96,16 +96,6 @@ namespace Frantics_PDF_Helper
 
 		public static void RestartApp()
 		{
-			// Thanks to Bali C
-			//ProcessStartInfo Info = new ProcessStartInfo();
-			//Info.Arguments = "/C ping 127.0.0.1 -n 2 && \"" + Application.ExecutablePath + "\"";
-			//Info.WindowStyle = ProcessWindowStyle.Hidden;
-			//Info.CreateNoWindow = true;
-			//Info.FileName = "cmd.exe";
-			//Process.Start(Info);
-			//Application.Current.Shutdown();
-
-
 			System.Diagnostics.Process.Start(Assembly.GetExecutingAssembly().Location);
 			System.Windows.Application.Current.Shutdown();
 		}
