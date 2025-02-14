@@ -1,16 +1,10 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Windows.Controls;
 
 namespace Frantics_PDF_Helper.Windows
 {
@@ -19,9 +13,34 @@ namespace Frantics_PDF_Helper.Windows
 	/// </summary>
 	public partial class SandboxWindow : Window
 	{
-		public SandboxWindow()
+		private Point drawBrushPoint;
+
+		public SandboxWindow(ImageSource ? src = null)
 		{
 			InitializeComponent();
+			this.Title = Localisation.GetLocalisedString("_AppName");
+
+			if (src != null)
+			{
+				Image img = new Image();
+				img.Source = src;
+				Content = img;
+			}
+
+		}
+
+		private void DrawCanvas_MouseDown(object sender, MouseButtonEventArgs e)
+		{
+			if (e.ButtonState == MouseButtonState.Pressed)
+				drawBrushPoint = e.GetPosition(this);
+		}
+
+		private void DrawCanvas_MouseMove(object sender, MouseEventArgs e)
+		{
+			if (e.LeftButton == MouseButtonState.Pressed)
+			{
+				drawBrushPoint = e.GetPosition(this);
+			}
 		}
 	}
 }

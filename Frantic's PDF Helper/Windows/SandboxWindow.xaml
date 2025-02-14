@@ -5,8 +5,17 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Frantics_PDF_Helper.Windows"
         mc:Ignorable="d"
-        Title="SandboxWindow" Height="450" Width="800">
-    <Grid>
         
+        Title="MainWindow"
+        Width="1920"
+        Height="1080"
+        WindowStyle="None"
+        WindowState="Maximized"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize">
+    <Grid Background="White">
+        <Canvas x:Name="drawCanvas" MouseDown="DrawCanvas_MouseDown" MouseMove="DrawCanvas_MouseMove" Background="Transparent">
+            
+        </Canvas>
     </Grid>
 </Window>

@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using System.Windows;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using System.Windows.Input;
 using System.Windows.Controls;
 
@@ -27,6 +28,8 @@ namespace Frantics_PDF_Helper.Windows
 		private PdfDocument? pdfDocument = null;
 		private PdfRenderer pdfRenderer = new();
 		private string pdfHash = "";
+
+		private SandboxWindow? mainSandboxWindow = null;
 
 		/// <summary>
 		/// Are we currenly trying to crop?
@@ -64,7 +67,6 @@ namespace Frantics_PDF_Helper.Windows
 		public MainWindow()
 		{
 			InitializeComponent();
-
 			this.Title = Localisation.GetLocalisedString("_AppName");
 
 			mainPaper.MouseLeftButtonDown += MainPaper_MouseLeftButtonDown;
@@ -113,6 +115,26 @@ namespace Frantics_PDF_Helper.Windows
 
 		private void CutCompleteButton_Click(object sender, RoutedEventArgs e)
 		{
+			var rectTop = Canvas.GetTop(dragRectangle);
+			var rectLeft = Canvas.GetLeft(dragRectangle);
+			var rectWidth = dragRectangle.ActualWidth;
+			var rectHeight = dragRectangle.ActualHeight;
+
+			var paperLeft = Canvas.GetLeft(mainPaper);
+			var paperTop = Canvas.GetTop(mainPaper);
+
+			// Calculate the difference between the paper and the rectangle
+			var deltaX = (rectLeft - paperLeft) * (mainPaper.Source.Width / mainPaper.ActualWidth);
+			var deltaY = (rectTop - paperTop) * (mainPaper.Source.Height / mainPaper.ActualHeight);
+			var deltaWidth = rectWidth * (mainPaper.Source.Width / mainPaper.ActualWidth);
+			var deltaHeight = rectHeight * (mainPaper.Source.Height / mainPaper.ActualHeight);
+
+			// Crop the image
+			var dimensionRect = new Int32Rect((int)deltaX, (int)deltaY, (int)deltaWidth, (int)deltaHeight);
+			var croppedImage = new CroppedBitmap(mainPaper.Source as BitmapSource, dimensionRect);
+			
+			InitaliseSandboxMode(croppedImage);
+
 			SetCutMode(false);
 		}
 
@@ -243,7 +265,6 @@ namespace Frantics_PDF_Helper.Windows
 			dragRectangle.Visibility = cutMode ? Visibility.Visible : Visibility.Hidden;
 			dragRectangle.Width = 0;
 			dragRectangle.Height = 0;
-			//dragRectangle.Position = new Point(0, 0);
 		}
 
 		// Centre the main paper on the canvas
@@ -265,6 +286,15 @@ namespace Frantics_PDF_Helper.Windows
 		private void CloseMainWindow()
 		{
 			Application.Current.Shutdown();
+		}
+
+		private void InitaliseSandboxMode(BitmapSource image)
+		{
+			mainSandboxWindow?.Close(); // Just in case
+
+			mainSandboxWindow = new(image);
+			mainSandboxWindow.Show();
+			//this.Hide();
 		}
 
 		public void LoadPDF(string path)
@@ -342,7 +372,6 @@ namespace Frantics_PDF_Helper.Windows
 				if (bitmap == null)
 				{
 					throw new System.Exception("Failed to load image.");
-					// return;
 				}
 			}
 
