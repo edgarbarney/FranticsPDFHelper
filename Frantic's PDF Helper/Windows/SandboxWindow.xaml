@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Frantics_PDF_Helper.Windows"
         mc:Ignorable="d"
         
-        Title="MainWindow"
+        Title="SandboxWindow"
         Width="1920"
         Height="1080"
         WindowStyle="None"
