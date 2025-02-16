@@ -14,8 +14,12 @@
         WindowStartupLocation="CenterScreen"
         ResizeMode="NoResize">
     <Grid Background="White">
-        <Canvas x:Name="drawCanvas" MouseDown="DrawCanvas_MouseDown" MouseMove="DrawCanvas_MouseMove" Background="Transparent">
-            
+        <Canvas x:Name="drawCanvas" MouseDown="DrawCanvas_MouseDown" MouseMove="DrawCanvas_MouseMove" MouseUp="DrawCanvas_MouseUp" Background="Transparent">
+
+
         </Canvas>
+        <Button Content="Eraser" Click="EraserButton_Click" Height="132" Width="141" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="10,0,0,10"/>
+        <Button Content="Freehand" Click="FreehandButton_Click" Height="132" Width="141" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="156,0,0,10"/>
+        <Button Content="Rect" Click="RectangleButton_Click" Height="132" Width="141" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="302,0,0,10"/>
     </Grid>
 </Window>
