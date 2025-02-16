@@ -26,6 +26,7 @@ namespace Frantics_PDF_Helper.Windows
 		private Point drawBrushCurrentPoint;
 
 		private Brush drawBrush = Brushes.Black;
+		private Brush fillBrush = Brushes.Transparent;
 		private double drawBrushThickness = 2.0;
 		private DrawMode drawMode = DrawMode.Rectangle;
 
@@ -81,7 +82,7 @@ namespace Frantics_PDF_Helper.Windows
 							currentDrawnShape = new Rectangle();
 							((Rectangle)currentDrawnShape).Stroke = drawBrush;
 							((Rectangle)currentDrawnShape).StrokeThickness = drawBrushThickness;
-							((Rectangle)currentDrawnShape).Fill = Brushes.Transparent;
+							((Rectangle)currentDrawnShape).Fill = fillBrush;
 							((Rectangle)currentDrawnShape).Width = 0;
 							((Rectangle)currentDrawnShape).Height = 0;
 							Canvas.SetLeft(currentDrawnShape, drawBrushCurrentPoint.X);
@@ -142,7 +143,7 @@ namespace Frantics_PDF_Helper.Windows
 					case DrawMode.Rectangle:
 						if (shouldFillShape)
 						{
-							//((Rectangle)currentDrawnShape).Fill = drawBrush;
+							//((Rectangle)currentDrawnShape).Fill = fillBrush;
 							currentDrawnShapeWidth = Math.Abs(drawBrushCurrentPoint.X - drawBrushStartPoint.X);
 							currentDrawnShapeHeight = Math.Abs(drawBrushCurrentPoint.Y - drawBrushStartPoint.Y);
 							Canvas.SetLeft(currentDrawnShape, Math.Min(drawBrushStartPoint.X, drawBrushCurrentPoint.X));
@@ -169,10 +170,10 @@ namespace Frantics_PDF_Helper.Windows
 						((Ellipse)currentDrawnShape).Height = currentDrawnShapeHeight;
 						break;
 					case DrawMode.Erase:
-						// Let's remove all shapes that are under the cursor
 						foreach (var child in drawCanvas.Children)
 						{
-							// You can filter for specific shapes if needed, like Polylines, Rectangles, Ellipses, etc.
+							// We can filter for specific shapes if needed
+							// Like Polylines, Rectangles, Ellipses, etc.
 							if (child is Shape shape)
 							{
 								if (shape.IsMouseOver)
