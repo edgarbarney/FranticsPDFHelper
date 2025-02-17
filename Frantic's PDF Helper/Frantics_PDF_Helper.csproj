@@ -12,6 +12,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Resources\Images\**" />
+    <EmbeddedResource Remove="Resources\Images\**" />
+    <None Remove="Resources\Images\**" />
+    <Page Remove="Resources\Images\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="Resources\Localisation\en-GB\BaseStrings.json" />
     <None Remove="Resources\Splash.png" />
   </ItemGroup>
@@ -31,7 +38,7 @@
 
   <ItemGroup>
     <Content Include="Resources\Localisation\en-GB\BaseStrings.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
 

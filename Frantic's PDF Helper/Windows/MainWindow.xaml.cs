@@ -255,10 +255,15 @@ namespace Frantics_PDF_Helper.Windows
 		// Refresh the styles of the controls (button colours depending on states etc.)
 		private void RefreshControlStyles()
 		{
-			cutModeButton.Foreground = cutMode ? cutModeOnBrush : cutModeOffBrush;
-			cutCompleteButton.Foreground = cutMode ? cutCompleteOnBrush : cutCompleteOffBrush;
-			previousPageButton.Foreground = CurrentPage > 0 ? cutCompleteOnBrush : cutCompleteOffBrush;
-			nextPageButton.Foreground = CurrentPage < TotalPages - 1 ? cutCompleteOnBrush : cutCompleteOffBrush;
+			//cutModeButton.Foreground = cutMode ? cutModeOnBrush : cutModeOffBrush;
+			//cutCompleteButton.Foreground = cutMode ? cutCompleteOnBrush : cutCompleteOffBrush;
+			//previousPageButton.Foreground = CurrentPage > 0 ? cutCompleteOnBrush : cutCompleteOffBrush;
+			//nextPageButton.Foreground = CurrentPage < TotalPages - 1 ? cutCompleteOnBrush : cutCompleteOffBrush;
+
+			WPFControlUtilities.SetButtonIconBrush((DrawingImage)this.Resources["CutModeButtonIcon"], cutMode ? cutModeOnBrush : cutModeOffBrush);
+			WPFControlUtilities.SetButtonIconBrush((DrawingImage)this.Resources["CutCompleteButtonIcon"], cutMode ? cutCompleteOnBrush : cutCompleteOffBrush);
+			WPFControlUtilities.SetButtonIconBrush((DrawingImage)this.Resources["PreviousPageButtonIcon"], CurrentPage > 0 ? cutCompleteOnBrush : cutCompleteOffBrush);
+			WPFControlUtilities.SetButtonIconBrush((DrawingImage)this.Resources["NextPageButtonIcon"], CurrentPage < TotalPages - 1 ? cutCompleteOnBrush : cutCompleteOffBrush);
 
 			dragRectangle.Fill = cutMode ? dragRectFillBrush : Brushes.Transparent;
 			dragRectangle.Stroke = cutMode ? dragRectStrokeBrush : Brushes.Transparent;

@@ -45,5 +45,21 @@ namespace Frantics_PDF_Helper.Utilities
 
 			return children;
 		}
+
+		/// <summary>
+		/// Set the brush of a button icon.
+		/// Button icons are usually converted from free FontAwesome icon SVGs.
+		/// So they usually have similar structure.
+		/// </summary>
+		/// <param name="icon"></param>
+		/// <param name="newBrush"></param>
+		public static void SetButtonIconBrush(DrawingImage icon, Brush newBrush)
+		{
+			var drawingGroup = icon.Drawing as DrawingGroup;
+			if (drawingGroup?.Children[0] is GeometryDrawing geometryDrawing)
+			{
+				geometryDrawing.Brush = newBrush;
+			}
+		}
 	}
 }
