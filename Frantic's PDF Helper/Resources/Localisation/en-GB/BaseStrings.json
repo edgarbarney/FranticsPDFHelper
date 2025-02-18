@@ -2,6 +2,7 @@
   "_LanguageName": "English (International)",
   "_AppName": "Frantic's PDF Reader",
   "Generic.CloseAppQuestion": "Are you sure you want to close the app?",
+  "Generic.IrreversibleActionQuestion": "This action is irreversible. Are you sure you want to continue?",
   "PDFCacheMode.NoCache": "No Cache",
   "PDFCacheMode.OnPageChange": "On Page Change",
   "PDFCacheMode.FullPDF": "Full PDF",
