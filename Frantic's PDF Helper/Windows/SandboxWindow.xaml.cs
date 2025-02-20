@@ -1,5 +1,6 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -8,8 +9,17 @@ using System.Windows.Controls;
 
 using Newtonsoft.Json;
 
+using Frantics_PDF_Helper.Utilities;
+using Frantics_PDF_Helper.Utilities.ShapeSaves;
+
 namespace Frantics_PDF_Helper.Windows
 {
+	/// <summary>
+	/// A tuple to store the data needed to save the shapes and the actions history.
+	/// </summary>
+	using DrawingSaveTuple = (List<SandboxWindow.DrawingAction> actionData, int actionIndex);
+	//using DrawingSaveTuple = (SandboxWindow.ShapeSaveData shapeData, List<SandboxWindow.DrawingAction> actionData, int actionIndex);
+
 	/// <summary>
 	/// Interaction logic for SandboxWindow.xaml
 	/// </summary>
@@ -27,6 +37,46 @@ namespace Frantics_PDF_Helper.Windows
 			public object Data { get; set; } = data;
 		}
 
+		/*
+		public class ShapeSaveData
+		{
+			public List<ShapeSave> Shapes { get; set; } = [];
+
+			public ShapeSaveData() { }
+
+			public ShapeSaveData(List<ShapeSave> shapes)
+			{
+				Shapes = shapes;
+			}
+
+			public ShapeSaveData(Canvas canvas)
+			{
+				foreach (var child in canvas.Children)
+				{
+					if (child is Shape shape)
+					{
+						if (shape is Rectangle rect)
+						{
+							Shapes.Add(new RectangleSave(rect, canvas));
+						}
+						else if (shape is Ellipse ellipse)
+						{
+							Shapes.Add(new EllipseSave(ellipse, canvas));
+						}
+						else if (shape is Line line)
+						{
+							Shapes.Add(new LineSave(line, canvas));
+						}
+						else if (shape is Polyline polyline)
+						{
+							Shapes.Add(new PolylineSave(polyline, canvas));
+						}
+					}
+				}
+			}
+		}
+		*/
+
 		public enum DrawMode
 		{
 			Freehand,
@@ -36,7 +86,13 @@ namespace Frantics_PDF_Helper.Windows
 			Erase
 		}
 
-		private readonly Image? mainImage = null;
+		private static readonly JsonSerializerSettings jsonSettings = new()
+		{
+			TypeNameHandling = TypeNameHandling.Auto
+		};
+
+		private readonly Image mainImage;
+		private readonly string exportDir;
 
 		private Point drawBrushStartPoint;
 		private Point drawBrushCurrentPoint;
@@ -55,40 +111,184 @@ namespace Frantics_PDF_Helper.Windows
 		private List<DrawingAction> actionsHistory = [];
 		private int currentActionIndex = 0;
 
-		public SandboxWindow(ImageSource ? src = null)
+		public SandboxWindow(ImageSource src, string exportDir, bool load = false)
 		{
 			InitializeComponent();
 			this.Title = Localisation.GetLocalisedString("_AppName");
+			this.exportDir = exportDir;
+
+			if (load)
+			{
+				mainImage = new();
+				drawCanvas.Children.Add(mainImage);
+				Load();
+				return;
+			}
 
 			if (src != null)
 			{
-				mainImage = new(){Source = src};
+				mainImage = new() { Source = src };
 				drawCanvas.Children.Add(mainImage);
 			}
+			else
+			{
+				mainImage = new();
+			}
+		}
+
+		public static bool CanLoad(string exportDir)
+		{
+			return File.Exists($"{exportDir}/save.json") /*&& File.Exists($"{exportDir}/save.png")*/;
+		}
+
+		public static void DeleteSave(string exportDir)
+		{
+			if (File.Exists($"{exportDir}/save.json"))
+			{
+				File.Delete($"{exportDir}/save.json");
+			}
+			/*
+			if (File.Exists($"{exportDir}/save.png"))
+			{
+				File.Delete($"{exportDir}/save.png");
+			}
+			*/
 		}
 
 		public void Save()
 		{
-			//Let's convert the canvas children to a list of shapes
-			//Then we can serialize it to JSON
+			//var shapeData = new ShapeSaveData(drawCanvas);
+			var actionsData = new List<DrawingAction>();
 
-			List<Shape> shapes = [];
-			foreach (var child in drawCanvas.Children)
+			foreach(DrawingAction action in actionsHistory)
 			{
-				if (child is Shape shape)
+				var shape = (Shape)action.Data;
+				if (shape is Rectangle rect)
 				{
-					shapes.Add(shape);
+					actionsData.Add(new(action.Action, new RectangleSave(rect, drawCanvas)));
+				}
+				else if (shape is Ellipse ellipse)
+				{
+					actionsData.Add(new(action.Action, new EllipseSave(ellipse, drawCanvas)));
+				}
+				else if (shape is Line line)
+				{
+					actionsData.Add(new(action.Action, new LineSave(line, drawCanvas)));
+				}
+				else if (shape is Polyline polyline)
+				{
+					actionsData.Add(new(action.Action, new PolylineSave(polyline, drawCanvas)));
+				}
+				else
+				{
+					actionsData.Add(new(action.Action, shape));
 				}
 			}
 
-			string dataToSave = JsonConvert.SerializeObject(shapes);
+			DrawingSaveTuple finalData = new(actionsData, currentActionIndex);
+
+			var dataToSave = JsonConvert.SerializeObject(finalData, jsonSettings);
+
+			File.WriteAllText($"{exportDir}/save.json", dataToSave);
+			Utilities.FileUtilities.ExportImage(mainImage.Source, $"{exportDir}/save");
 		}
 
 		public void Load()
 		{
-			// Load an image to the canvas
-			// This is just a placeholder
-			// We'll need to implement this
+			if (File.Exists($"{exportDir}/save.json"))
+			{
+				var data = File.ReadAllText($"{exportDir}/save.json");
+				var saveData = JsonConvert.DeserializeObject<DrawingSaveTuple>(data, jsonSettings);
+
+				/*
+					if (saveData.shapeData == null)
+					{
+						return;
+					}
+
+				// Shapes
+				//
+				// Action history already contains the shapes as they were drawn/erased.
+				// So we don't need to load the shapes separately.
+				 
+					foreach(var shape in saveData.shapeData.Shapes)
+					{
+						if (shape is PolylineSave polyline)
+						{
+							drawCanvas.Children.Add(polyline.ToPolyline());
+						}
+						else if (shape is LineSave line)
+						{
+							drawCanvas.Children.Add(line.ToLine());
+						}
+						else if (shape is RectangleSave rect)
+						{
+							var newRect = rect.ToRectangle();
+							Canvas.SetLeft(newRect, rect.X);
+							Canvas.SetTop(newRect, rect.Y);
+							drawCanvas.Children.Add(newRect);
+						}
+						else if (shape is EllipseSave ellipse)
+						{
+							var newEllipse = ellipse.ToEllipse();
+							Canvas.SetLeft(newEllipse, ellipse.X);
+							Canvas.SetTop(newEllipse, ellipse.Y);
+							drawCanvas.Children.Add(newEllipse);
+						}
+					}
+				*/
+
+				currentActionIndex = saveData.actionIndex;
+
+				if (saveData.actionData == null)
+				{
+					return;
+				}
+
+				// Action history
+				foreach (var action in saveData.actionData)
+				{
+					if (action.Data is PolylineSave polyline)
+					{
+						action.Data = polyline.ToPolyline();
+					}
+					else if (action.Data is LineSave line)
+					{
+						action.Data = line.ToLine();
+					}
+					else if (action.Data is RectangleSave rect)
+					{
+						action.Data = rect.ToRectangle();
+						Canvas.SetLeft((Rectangle)action.Data, rect.X);
+						Canvas.SetTop((Rectangle)action.Data, rect.Y);
+					}
+					else if (action.Data is EllipseSave ellipse)
+					{
+						action.Data = ellipse.ToEllipse();
+						Canvas.SetLeft((Ellipse)action.Data, ellipse.X);
+						Canvas.SetTop((Ellipse)action.Data, ellipse.Y);
+					}
+
+					actionsHistory.Add(action);
+				}
+
+				// Add the shapes to the canvas
+				for (int i = 0; i < currentActionIndex; i++)
+				{
+					var action = actionsHistory[i];
+					if (action.Action == DrawingAction.ActionType.Draw)
+					{
+						drawCanvas.Children.Add((Shape)action.Data);
+					}
+					else// if (action.Action == DrawingAction.ActionType.Erase)
+					{
+						drawCanvas.Children.Remove((Shape)action.Data);
+					}
+				}
+			}
+
+			var bitmap = FileUtilities.LoadImage($"{exportDir}/save", Settings.Instance.ExportFormat) ?? throw new System.Exception("Failed to load image.");
+			mainImage.Source = FileUtilities.ConvertBitmapToImageSource(bitmap);
 		}
 
 		private void DrawCanvasClear()
@@ -146,12 +346,12 @@ namespace Frantics_PDF_Helper.Windows
 			if (mode == DrawMode.Erase)
 			{
 				drawCanvas.Children.Remove(shape);
-				actionsHistory.Add(new (DrawingAction.ActionType.Erase, shape));
+				actionsHistory.Add(new(DrawingAction.ActionType.Erase, shape));
 			}
 			else
 			{
 				drawCanvas.Children.Add(shape);
-				actionsHistory.Add(new (DrawingAction.ActionType.Draw, shape));
+				actionsHistory.Add(new(DrawingAction.ActionType.Draw, shape));
 			}
 			currentActionIndex++;
 		}

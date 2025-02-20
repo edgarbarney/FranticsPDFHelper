@@ -28,6 +28,17 @@
 
         <!-- Fontawesome SVGs -->
 
+        <DrawingImage x:Key="CloseButtonIcon">
+            <DrawingImage.Drawing>
+                <DrawingGroup ClipGeometry="M0,0 V512 H512 V0 H0 Z">
+                    <DrawingGroup.Transform>
+                        <TranslateTransform X="9.5367431640625E-07" Y="5.9604644775390625E-07" />
+                    </DrawingGroup.Transform>
+                    <GeometryDrawing Brush="#900" Geometry="F1 M512,512z M0,0z M496.8471,87.439015C516.83774,67.448375 516.83774,34.983599 496.8471,14.992975 476.85648,-4.9976591 444.39169,-4.9976591 424.40106,14.992975L256,183.55395 87.439016,15.152897C67.448383,-4.8377334 34.983601,-4.8377334 14.992972,15.152897 -4.99765880000001,35.14352 -4.99765880000001,67.608307 14.992972,87.598935L183.55395,256 15.152897,424.56098C-4.8377331,444.55162 -4.8377331,477.0164 15.152897,497.00703 35.143526,516.99766 67.608308,516.99766 87.598938,497.00703L256,328.44605 424.56098,496.8471C444.55162,516.83774 477.0164,516.83774 497.00703,496.8471 516.99766,476.85648 516.99766,444.39169 497.00703,424.40106L328.44605,256z" />
+                </DrawingGroup>
+            </DrawingImage.Drawing>
+        </DrawingImage>
+
         <DrawingImage x:Key="EraserButtonIcon">
             <DrawingImage.Drawing>
                 <DrawingGroup ClipGeometry="M0,0 V512 H512 V0 H0 Z">
@@ -113,6 +124,10 @@
     <Grid x:Name="mainGrid" Background="White">
         <Canvas x:Name="drawCanvas" MouseDown="DrawCanvas_MouseDown" MouseMove="DrawCanvas_MouseMove" MouseUp="DrawCanvas_MouseUp" Background="Transparent">
         </Canvas>
+
+        <Button x:Name="closeButton" Click="CloseButton_Click" FontFamily="ArialBlack" FontSize="100" VerticalAlignment="Top" HorizontalAlignment="Right" Height="64" Width="64">
+            <Image Source="{StaticResource CloseButtonIcon}" Width="42" Height="42"/>
+        </Button>
         <Button Click="EraserButton_Click" Height="64" Width="64" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="79,0,0,10">
             <Image Source="{StaticResource EraserButtonIcon}" Height="42" Width="42"/>
         </Button>

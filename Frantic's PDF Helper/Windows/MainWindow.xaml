@@ -78,7 +78,26 @@
 			</DrawingImage.Drawing>
 		</DrawingImage>
 
-		<!-- Fontawesome SVGs End -->
+        <DrawingImage x:Key="LoadLastSaveButtonIcon">
+            <DrawingImage.Drawing>
+                <DrawingGroup ClipGeometry="M0,0 V512 H512 V0 H0 Z">
+                    <GeometryDrawing Brush="#267" Geometry="F1 M512,512z M0,0z M73.142858,0C32.8,0,0,32.8,0,73.142859L0,438.85714C0,479.2,32.8,512,73.142858,512L438.85714,512C479.2,512,512,479.2,512,438.85714L512,161.48572C512,142.05714,504.34286,123.42858,490.62858,109.71428L402.28572,21.371428C388.57142,7.6571424,369.94286,0,350.51428,0z M73.142858,109.71428C73.142858,89.485717,89.485714,73.142859,109.71428,73.142859L329.14286,73.142859C349.37142,73.142859,365.71428,89.485717,365.71428,109.71428L365.71428,182.85714C365.71428,203.08572,349.37142,219.42858,329.14286,219.42858L109.71428,219.42858C89.485714,219.42858,73.142858,203.08572,73.142858,182.85714z M256,292.57142A73.14286,73.14286,0,1,1,256,438.85714A73.14286,73.14286,0,1,1,256,292.57142z" />
+                </DrawingGroup>
+            </DrawingImage.Drawing>
+        </DrawingImage>
+
+        <DrawingImage x:Key="DeleteLastSaveButtonIcon">
+            <DrawingImage.Drawing>
+                <DrawingGroup ClipGeometry="M0,0 V512 H448 V0 H0 Z">
+                    <DrawingGroup.Transform>
+                        <TranslateTransform X="0" Y="5.7203645831353372E-31" />
+                    </DrawingGroup.Transform>
+                    <GeometryDrawing Brush="#700" Geometry="F1 M448,512z M0,0z M163.80078,0C151.70079,0,140.59921,6.7992297,135.19922,17.699219L128,32 32,32C14.300018,32 0,46.300018 0,64 0,81.699982 14.300018,96 32,96L416,96C433.69998,96 448,81.699982 448,64 448,46.300018 433.69998,32 416,32L320,32 312.80078,17.699219C307.40079,6.7992297,296.29921,-2.3684734E-15,284.19922,0L163.80078,0z M32,128L53.199219,467C54.799217,492.29997,75.799635,512,101.09961,512L346.90039,512C372.20037,512,393.20078,492.29997,394.80078,467L416,128 32,128z M149.16211,199.33008L262.68164,199.33008C270.63309,199.33008,278.25635,202.46533,283.86914,208.07812L320.02539,244.23242C325.63818,249.84521,328.77148,257.47041,328.77148,265.42188L328.77148,378.93945C328.77148,395.45043,315.34886,408.875,298.83789,408.875L149.16211,408.875C132.65115,408.875,119.22852,395.45043,119.22852,378.93945L119.22852,229.26562C119.22852,212.75466,132.65115,199.33008,149.16211,199.33008z M164.13086,229.26562C155.85199,229.26562,149.16211,235.95355,149.16211,244.23242L149.16211,274.16797C149.16211,282.44683,155.85199,289.13477,164.13086,289.13477L253.93555,289.13477C262.21442,289.13477,268.90234,282.44683,268.90234,274.16797L268.90234,244.23242C268.90234,235.95355,262.21442,229.26562,253.93555,229.26562L164.13086,229.26562z M224,319.07031A29.934916,29.934916,0,1,0,224,378.93945A29.934916,29.934916,0,1,0,224,319.07031z" />
+                </DrawingGroup>
+            </DrawingImage.Drawing>
+        </DrawingImage>
+
+        <!-- Fontawesome SVGs End -->
 
 	</Window.Resources>
 	<Grid x:Name="mainGrid" Background="#333">
@@ -86,21 +105,27 @@
 			<Image x:Name="mainPaper" Panel.ZIndex="-100"/>
 			<Rectangle x:Name="dragRectangle" IsHitTestVisible="False" Panel.ZIndex="-50" VerticalAlignment="Center"/>
 		</Canvas>
-		<Button x:Name="closeButton" Click="CloseMainWindowButton_Click" FontFamily="ArialBlack" FontSize="100" VerticalAlignment="Top" HorizontalAlignment="Right" Height="128" Width="128">
-			<Image Source="{StaticResource CloseButtonIcon}" Width="64" Height="64"/>
+		<Button x:Name="closeButton" Click="CloseButton_Click" FontFamily="ArialBlack" FontSize="100" VerticalAlignment="Top" HorizontalAlignment="Right" Height="64" Width="64">
+			<Image Source="{StaticResource CloseButtonIcon}" Width="48" Height="48"/>
 		</Button>
-		<Button x:Name="previousPageButton" Click="PreviousPageButton_Click" FontFamily="ArialBlack" FontSize="50" VerticalAlignment="Center" HorizontalAlignment="Left" Height="128" Width="128">
-			<Image Source="{StaticResource PreviousPageButtonIcon}" Width="64" Height="64"/>
+		<Button x:Name="previousPageButton" Click="PreviousPageButton_Click" FontFamily="ArialBlack" FontSize="50" VerticalAlignment="Center" HorizontalAlignment="Left" Height="64" Width="64">
+			<Image Source="{StaticResource PreviousPageButtonIcon}" Width="48" Height="48"/>
 		</Button>
-		<Button x:Name="nextPageButton" Click="NextPageButton_Click" FontFamily="ArialBlack" FontSize="50" VerticalAlignment="Center" HorizontalAlignment="Right" Height="128" Width="128">
-			<Image Source="{StaticResource NextPageButtonIcon}" Width="64" Height="64"/>
+		<Button x:Name="nextPageButton" Click="NextPageButton_Click" FontFamily="ArialBlack" FontSize="50" VerticalAlignment="Center" HorizontalAlignment="Right" Height="64" Width="64">
+			<Image Source="{StaticResource NextPageButtonIcon}" Width="48" Height="48"/>
 		</Button>
-		<Button x:Name="cutModeButton" Click="CutModeButton_Click" FontFamily="ArialBlack" FontSize="50" VerticalAlignment="Bottom" HorizontalAlignment="Left" Height="128" Width="128">
-			<Image Source="{StaticResource CutModeButtonIcon}" Width="64" Height="64"/>
+		<Button x:Name="cutModeButton" Click="CutModeButton_Click" FontFamily="ArialBlack" FontSize="50" VerticalAlignment="Bottom" HorizontalAlignment="Left" Height="64" Width="64">
+			<Image Source="{StaticResource CutModeButtonIcon}" Width="48" Height="48"/>
 		</Button>
-		<Button x:Name="cutCompleteButton" Click="CutCompleteButton_Click" FontFamily="ArialBlack" FontSize="50" VerticalAlignment="Bottom" HorizontalAlignment="Left" Height="128" Width="128" Margin="133,0,0,0">
-			<Image Source="{StaticResource CutCompleteButtonIcon}" Width="64" Height="64"/>    
+		<Button x:Name="cutCompleteButton" Click="CutCompleteButton_Click" FontFamily="ArialBlack" FontSize="50" VerticalAlignment="Bottom" HorizontalAlignment="Left" Height="64" Width="64" Margin="69,0,0,0">
+			<Image Source="{StaticResource CutCompleteButtonIcon}" Width="48" Height="48"/>    
 		</Button>
-		<Button x:Name="pageNumberButton" Content="888/888" Click="PageNumberButton_Click" FontFamily="ArialBlack" FontSize="34" VerticalAlignment="Bottom" HorizontalAlignment="Center" Height="128" Width="128" Margin="0,0,0,0"/>
-	</Grid>
+        <Button x:Name="loadLastSaveButton" Click="LoadLastSaveButton_Click" FontFamily="ArialBlack" FontSize="50" VerticalAlignment="Bottom" HorizontalAlignment="Left" Height="64" Width="64" Margin="0,0,0,69">
+            <Image Source="{StaticResource LoadLastSaveButtonIcon}" Width="48" Height="48"/>
+        </Button>
+        <Button x:Name="deleteLastSaveButton" Click="DeleteLastSaveButton_Click" FontFamily="ArialBlack" FontSize="50" VerticalAlignment="Bottom" HorizontalAlignment="Left" Height="64" Width="64" Margin="69,0,0,69">
+            <Image Source="{StaticResource DeleteLastSaveButtonIcon}" Width="48" Height="48"/>
+        </Button>
+        <Button x:Name="pageNumberButton" Content="888/888" Click="PageNumberButton_Click" FontFamily="ArialBlack" FontSize="17" VerticalAlignment="Bottom" HorizontalAlignment="Center" Height="64" Width="64" Margin="0,0,0,0"/>
+    </Grid>
 </Window>

@@ -5,7 +5,6 @@ using System.Security.Cryptography;
 using System.Windows.Media.Imaging;
 
 using SkiaSharp;
-using System.Drawing;
 
 namespace Frantics_PDF_Helper.Utilities
 {
@@ -111,6 +110,77 @@ namespace Frantics_PDF_Helper.Utilities
 		}
 
 		/// <summary>
+		/// Export an image to a file from a Bitmap Source.
+		/// Filename should also include directory. 
+		/// </summary>
+		/// <remarks>
+		/// The directory in the name must be existing.
+		/// Name shouldn't include the file extension, the function will automatically add it.
+		/// </remarks>
+		/// <param name="imageSource">Input Image.
+		///		<remarks>
+		///			This is ImageSource isntead of BitmapSource
+		///			to make it easier to use with Image controls.
+		///		</remarks>
+		/// </param>
+		/// <param name="name">Exported Filename (including directory)</param>
+		public static void ExportImage(System.Windows.Media.ImageSource image, string name)
+		{
+			ExportImage(image, name, Settings.Instance.ExportFormat);
+		}
+
+		/// <summary>
+		/// Export an image to a file from a Bitmap Source.
+		/// Filename should also include directory. 
+		/// </summary>
+		/// <remarks>
+		/// The directory in the name must be existing.
+		/// Name shouldn't include the file extension, the function will automatically add it.
+		/// </remarks>
+		/// <param name="imageSource">Input Image.
+		///		<remarks>
+		///			This is ImageSource isntead of BitmapSource
+		///			to make it easier to use with Image controls.
+		///		</remarks>
+		/// </param>
+		/// <param name="name">Exported Filename (including directory)</param>
+		/// <param name="imgFormat">Exported Image Format</param>
+		public static void ExportImage(System.Windows.Media.ImageSource imageSource, string name, ImageFormat imgFormat)
+		{
+			if (imageSource is BitmapSource bitmapSource)
+			{
+				switch (imgFormat)
+				{
+					case ImageFormat.Png:
+						using (FileStream stream = new($"{name}.png", FileMode.Create))
+						{
+							var encoder = new PngBitmapEncoder();
+							encoder.Frames.Add(BitmapFrame.Create(bitmapSource));
+							encoder.Save(stream);
+						}
+						break;
+					case ImageFormat.Webp:
+						using (MemoryStream memoryStream = new())
+						{
+							var encoder = new PngBitmapEncoder(); // Use PNG as an intermediate format
+							encoder.Frames.Add(BitmapFrame.Create(bitmapSource));
+							encoder.Save(memoryStream);
+							memoryStream.Seek(0, SeekOrigin.Begin);
+							var skBitmap = SKBitmap.Decode(memoryStream);
+							var skImage = SKImage.FromBitmap(skBitmap);
+							var webpData = skImage.Encode(SKEncodedImageFormat.Webp, 100);
+							File.WriteAllBytes($"{name}.webp", webpData.ToArray());
+						}
+						break;
+				}
+			}
+			else
+			{
+				throw new ArgumentException("The provided ImageSource is not a BitmapSource and cannot be saved.");
+			}
+		}
+
+		/// <summary>
 		/// Import an <b><i>existing</i></b> image from a file.
 		/// <para>
 		///		For checking first, use the <see cref="LoadImage(string)"/> function.
@@ -135,7 +205,7 @@ namespace Frantics_PDF_Helper.Utilities
 		/// <summary>
 		/// Import an image from a file.
 		/// <para>
-		///		It checks 
+		///		It checks for the file's existence.
 		/// </para>
 		/// </summary>
 		/// <param name="path">File path, <b><i>without</i></b> extension.</param>

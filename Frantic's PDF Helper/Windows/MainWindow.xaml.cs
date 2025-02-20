@@ -1,4 +1,4 @@
-using System.IO;
+﻿using System.IO;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -50,8 +50,11 @@ namespace Frantics_PDF_Helper.Windows
 
 		private static readonly Brush cutModeOnBrush = new SolidColorBrush(Colour.FromRgb(153, 0, 0));          // #900
 		private static readonly Brush cutModeOffBrush = new SolidColorBrush(Colour.FromRgb(0, 0, 153));			// #009
-		private static readonly Brush cutCompleteOnBrush = new SolidColorBrush(Colour.FromRgb(0, 102, 0));      // #060
-		private static readonly Brush cutCompleteOffBrush = new SolidColorBrush(Colour.FromRgb(102, 102, 102)); // #666
+		private static readonly Brush cutCompleteBrush = new SolidColorBrush(Colour.FromRgb(0, 102, 0));		// #060
+		private static readonly Brush loadLastSaveBrush = new SolidColorBrush(Colour.FromRgb(34, 102, 120));	// #267
+		private static readonly Brush deleteLastSaveBrush = new SolidColorBrush(Colour.FromRgb(120, 0, 0));		// #700
+
+		private static readonly Brush disabledButtonIconBrush = new SolidColorBrush(Colour.FromRgb(102, 102, 102)); // #666
 
 		private static readonly Brush dragRectFillBrush = new SolidColorBrush(Colour.FromArgb(64, 0, 0, 102));
 		private static readonly Brush dragRectStrokeBrush = new SolidColorBrush(Colour.FromArgb(128, 0, 0, 102));
@@ -138,7 +141,7 @@ namespace Frantics_PDF_Helper.Windows
 			SetCutMode(false);
 		}
 
-		private void CloseMainWindowButton_Click(object sender, RoutedEventArgs e)
+		private void CloseButton_Click(object sender, RoutedEventArgs e)
 		{
 			if(DialogueWindow.ShowDialogue(Title, Localisation.GetLocalisedString("Dialogue.CloseAppQuestion"), DialogueWindow.DialogueButton.Yes | DialogueWindow.DialogueButton.No) == DialogueWindow.DialogueButton.Yes)
 			{
@@ -171,6 +174,29 @@ namespace Frantics_PDF_Helper.Windows
 			if (CurrentPage < TotalPages - 1)
 			{
 				ShowPage(CurrentPage + 1);
+			}
+		}
+
+		private void LoadLastSaveButton_Click(object sender, RoutedEventArgs e)
+		{
+			if (SandboxWindow.CanLoad(exportFolderDir + pdfHash))
+			{
+				InitaliseSandboxMode((BitmapSource)mainPaper.Source, true);
+				SetCutMode(false);
+			}
+			else
+			{
+				DialogueWindow.ShowMessageBox(Title, Localisation.GetLocalisedString("MainWindow.NoSaveFound"));
+				RefreshControlStyles();
+			}
+		}
+
+		private void DeleteLastSaveButton_Click(object sender, RoutedEventArgs e)
+		{
+			if (DialogueWindow.ShowDialogue(Title, Localisation.GetLocalisedString("MainWindow.DeleteLastSaveQuestion"), DialogueWindow.DialogueButton.Yes | DialogueWindow.DialogueButton.No) == DialogueWindow.DialogueButton.Yes)
+			{
+				SandboxWindow.DeleteSave(exportFolderDir + pdfHash);
+				RefreshControlStyles();
 			}
 		}
 
@@ -253,17 +279,18 @@ namespace Frantics_PDF_Helper.Windows
 		// ========================
 
 		// Refresh the styles of the controls (button colours depending on states etc.)
-		private void RefreshControlStyles()
+		public void RefreshControlStyles()
 		{
-			//cutModeButton.Foreground = cutMode ? cutModeOnBrush : cutModeOffBrush;
-			//cutCompleteButton.Foreground = cutMode ? cutCompleteOnBrush : cutCompleteOffBrush;
-			//previousPageButton.Foreground = CurrentPage > 0 ? cutCompleteOnBrush : cutCompleteOffBrush;
-			//nextPageButton.Foreground = CurrentPage < TotalPages - 1 ? cutCompleteOnBrush : cutCompleteOffBrush;
+			// Doing this here is a bit hacky, but it works for now.
+			loadLastSaveButton.IsEnabled = SandboxWindow.CanLoad(exportFolderDir + pdfHash);
+			deleteLastSaveButton.IsEnabled = SandboxWindow.CanLoad(exportFolderDir + pdfHash);
 
 			WPFControlUtilities.SetButtonIconBrush((DrawingImage)this.Resources["CutModeButtonIcon"], cutMode ? cutModeOnBrush : cutModeOffBrush);
-			WPFControlUtilities.SetButtonIconBrush((DrawingImage)this.Resources["CutCompleteButtonIcon"], cutMode ? cutCompleteOnBrush : cutCompleteOffBrush);
-			WPFControlUtilities.SetButtonIconBrush((DrawingImage)this.Resources["PreviousPageButtonIcon"], CurrentPage > 0 ? cutCompleteOnBrush : cutCompleteOffBrush);
-			WPFControlUtilities.SetButtonIconBrush((DrawingImage)this.Resources["NextPageButtonIcon"], CurrentPage < TotalPages - 1 ? cutCompleteOnBrush : cutCompleteOffBrush);
+			WPFControlUtilities.SetButtonIconBrush((DrawingImage)this.Resources["CutCompleteButtonIcon"], cutMode ? cutCompleteBrush : disabledButtonIconBrush);
+			WPFControlUtilities.SetButtonIconBrush((DrawingImage)this.Resources["PreviousPageButtonIcon"], CurrentPage > 0 ? cutCompleteBrush : disabledButtonIconBrush);
+			WPFControlUtilities.SetButtonIconBrush((DrawingImage)this.Resources["NextPageButtonIcon"], CurrentPage < TotalPages - 1 ? cutCompleteBrush : disabledButtonIconBrush);
+			WPFControlUtilities.SetButtonIconBrush((DrawingImage)this.Resources["LoadLastSaveButtonIcon"], SandboxWindow.CanLoad(exportFolderDir + pdfHash) ? loadLastSaveBrush : disabledButtonIconBrush);
+			WPFControlUtilities.SetButtonIconBrush((DrawingImage)this.Resources["DeleteLastSaveButtonIcon"], SandboxWindow.CanLoad(exportFolderDir + pdfHash) ? deleteLastSaveBrush : disabledButtonIconBrush);
 
 			dragRectangle.Fill = cutMode ? dragRectFillBrush : Brushes.Transparent;
 			dragRectangle.Stroke = cutMode ? dragRectStrokeBrush : Brushes.Transparent;
@@ -293,11 +320,11 @@ namespace Frantics_PDF_Helper.Windows
 			Application.Current.Shutdown();
 		}
 
-		private void InitaliseSandboxMode(BitmapSource image)
+		private void InitaliseSandboxMode(BitmapSource image, bool load = false)
 		{
 			mainSandboxWindow?.Close(); // Just in case
 
-			mainSandboxWindow = new(image);
+			mainSandboxWindow = new(image, $"{exportFolderDir}{pdfHash}", load);
 			mainSandboxWindow.Show();
 			//this.Hide();
 		}
