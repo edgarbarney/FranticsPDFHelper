@@ -1,8 +1,15 @@
-﻿{
+{
   "_LanguageName": "English (International)",
   "_AppName": "Frantic's PDF Reader",
-  "Generic.CloseAppQuestion": "Are you sure you want to close the app?",
-  "Generic.IrreversibleActionQuestion": "This action is irreversible. Are you sure you want to continue?",
+  "Dialogue.CloseAppQuestion": "Are you sure you want to close the app?",
+  "Dialogue.IrreversibleActionQuestion": "This action is irreversible. Are you sure you want to continue?",
+  "Dialogue.SaveBeforeQuit": "Do you want to save the changes before quitting?",
+  "Dialogue.OK": "OK",
+  "Dialogue.Yes": "Yes",
+  "Dialogue.No": "No",
+  "Dialogue.Cancel": "Cancel",
+  "Dialogue.Save": "Save",
+  "Dialogue.Load": "Load",
   "PDFCacheMode.NoCache": "No Cache",
   "PDFCacheMode.OnPageChange": "On Page Change",
   "PDFCacheMode.FullPDF": "Full PDF",

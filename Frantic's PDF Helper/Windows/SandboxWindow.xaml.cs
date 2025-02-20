@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Input;
@@ -354,6 +354,34 @@ namespace Frantics_PDF_Helper.Windows
 			}
 		}
 
+		private void CloseButton_Click(object sender, RoutedEventArgs e)
+		{
+			var result = DialogueWindow.ShowDialogue(Title, Localisation.GetLocalisedString("Dialogue.SaveBeforeQuit"), DialogueWindow.DialogueButton.Yes | DialogueWindow.DialogueButton.No | DialogueWindow.DialogueButton.Cancel);
+			
+			switch(result)
+			{
+				case DialogueWindow.DialogueButton.Yes:
+					Save();
+					break;
+				case DialogueWindow.DialogueButton.No:
+					break;
+				case DialogueWindow.DialogueButton.Cancel:
+					return;
+			}
+
+			// TODO: Find a better way to refresh the main window buttons after a possible save.
+			foreach (Window window in Application.Current.Windows)
+			{
+				if (window is MainWindow mainWindow)
+				{
+					mainWindow.RefreshControlStyles();
+					break;
+				}
+			}
+
+			Close();
+		}
+
 		private void EraserButton_Click(object sender, RoutedEventArgs e)
 		{
 			drawMode = DrawMode.Erase;
@@ -381,7 +409,7 @@ namespace Frantics_PDF_Helper.Windows
 
 		private void ClearAllButton_Click(object sender, RoutedEventArgs e)
 		{
-			if (DialogueWindow.ShowDialogue(Title, Localisation.GetLocalisedString("Generic.IrreversibleActionQuestion")))
+			if (DialogueWindow.ShowDialogue(Title, Localisation.GetLocalisedString("Dialogue.IrreversibleActionQuestion"), DialogueWindow.DialogueButton.Yes | DialogueWindow.DialogueButton.No) == DialogueWindow.DialogueButton.Yes)
 			{
 				DrawCanvasClear();
 			}

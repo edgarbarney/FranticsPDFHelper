@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Numerics;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace Frantics_PDF_Helper.Windows
 {
@@ -14,7 +16,9 @@ namespace Frantics_PDF_Helper.Windows
 			None = 0,
 
 			OK = 1,
-			Cancel = 2,
+			Yes = 2,
+			No = 4,
+			Cancel = 8,
 
 			Default = OK | Cancel,
 
@@ -53,18 +57,98 @@ namespace Frantics_PDF_Helper.Windows
 			{
 				inputTextBox.Visibility = Visibility.Collapsed;
 			}
-			
+
+			buttonGrid.ColumnDefinitions.Clear();
+			buttonGrid.Children.Clear();
+
+			List<DialogueButton> setFlags = [];
+			foreach (DialogueButton value in Enum.GetValues(typeof(DialogueButton)))
+			{
+				if (value != DialogueButton.None && value != DialogueButton.Default && dialogueButtons.HasFlag(value))
+				{
+					setFlags.Add(value);
+				}
+			}
+
+			switch (setFlags.Count)
+			{
+				case 1:
+					buttonGrid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Star) });
+					break;
+				case 2:
+					buttonGrid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Star) });
+					buttonGrid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Star) });
+					break;
+				case 3:
+					buttonGrid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Star) });
+					buttonGrid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Star) });
+					buttonGrid.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(1, GridUnitType.Star) });
+					break;
+			}
+
+			for (int i = 0; i < setFlags.Count; i++)
+			{
+				var border = new Border();
+
+				// First border: 0 0 5 0
+				// Last border: 5 0 0 0
+				// Middle border(s): 5 0 5 0
+				if (i == 0)
+				{
+					border.Padding = new Thickness(0.0, 0.0, 5.0, 0.0);
+				}
+				else if (i == setFlags.Count - 1)
+				{
+					border.Padding = new Thickness(5.0, 0.0, 0.0, 0.0);
+				}
+				else
+				{
+					border.Padding = new Thickness(5.0, 0.0, 5.0, 0.0);
+				}
+
+				var button = new Button
+				{
+					Padding = new Thickness(10.0)
+				};
+				button.Click += Button_Click;
+
+				buttonGrid.Children.Add(border);
+				border.Child = button;
+
+				Grid.SetColumn(border, i);
+				switch (setFlags[i])
+				{
+					case DialogueButton.OK:
+						button.Content = "OK";
+						break;
+					case DialogueButton.Yes:
+						button.Content = "Yes";
+						break;
+					case DialogueButton.No:
+						button.Content = "No";
+						break;
+					case DialogueButton.Cancel:
+						button.Content = "Cancel";
+						break;
+				}
+			}
 		}
 
-		private void OKButton_Click(object sender, RoutedEventArgs e)
+		private void Button_Click(object sender, RoutedEventArgs e)
 		{
-			DialogueResult = DialogueButton.OK;
-			Close();
-		}
+			// Check which button was clicked
+			if (sender is Button button)
+			{
+				DialogueResult = button.Content switch
+				{
+					"OK" => DialogueButton.OK,
+					"Yes" => DialogueButton.Yes,
+					"No" => DialogueButton.No,
+					"Cancel" => DialogueButton.Cancel,
+					_ => DialogueButton.Cancel,
+				};
+			}
 
-		private void CancelButton_Click(object sender, RoutedEventArgs e)
-		{
-			DialogueResult = DialogueButton.None;
 			Close();
 		}
 
@@ -89,7 +173,7 @@ namespace Frantics_PDF_Helper.Windows
 		}
 
 		/// <summary>
-		/// Shows a basic dialogue window with the specified title, description, input field, OK and Cancel buttons.
+		/// Shows a basic dialogue window with the specified title, description, OK and Cancel buttons.
 		/// </summary>
 		/// <param name="title">Title of the dialogue window.</param>
 		/// <param name="desc">Description of the dialogue window.</param>
@@ -103,7 +187,7 @@ namespace Frantics_PDF_Helper.Windows
 		}
 
 		/// <summary>
-		/// Shows a dialogue window with the specified title, description, input field, and some buttons.
+		/// Shows a dialogue window with the specified title, description, and some buttons.
 		/// </summary>
 		/// <param name="title">Title of the dialogue window.</param>
 		/// <param name="desc">Description of the dialogue window.</param>
@@ -117,6 +201,16 @@ namespace Frantics_PDF_Helper.Windows
 			dialogue.ShowDialog();
 
 			return dialogue.DialogueResult;
+		}
+
+		/// <summary>
+		/// Shows a message box with the specified title, description and an OK button.
+		/// </summary>
+		/// <param name="title">Title of the dialogue window.</param>
+		/// <param name="desc">Description of the dialogue window.</param>
+		public static void ShowMessageBox(string title, string desc)
+		{
+			ShowDialogue(title, desc, DialogueButton.OK);
 		}
 	}
 }

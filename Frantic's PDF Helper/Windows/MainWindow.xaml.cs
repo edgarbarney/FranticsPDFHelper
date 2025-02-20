@@ -1,4 +1,4 @@
-﻿using System.IO;
+using System.IO;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -140,7 +140,7 @@ namespace Frantics_PDF_Helper.Windows
 
 		private void CloseMainWindowButton_Click(object sender, RoutedEventArgs e)
 		{
-			if(DialogueWindow.ShowDialogue(Title, Localisation.GetLocalisedString("Generic.CloseAppQuestion")))
+			if(DialogueWindow.ShowDialogue(Title, Localisation.GetLocalisedString("Dialogue.CloseAppQuestion"), DialogueWindow.DialogueButton.Yes | DialogueWindow.DialogueButton.No) == DialogueWindow.DialogueButton.Yes)
 			{
 				CloseMainWindow();
 			}
