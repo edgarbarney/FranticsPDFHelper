@@ -27,22 +27,28 @@ jobs:
         run: dotnet restore
 
       - name: Build (normal)
-        run: dotnet publish Frantics_PDF_Helper.csproj -c Release -r win-x64 -o ./publish/normal
+        run: dotnet publish Frantics_PDF_Helper/Frantics_PDF_Helper.csproj -c Release -r win-x64 -o ./publish/normal
 
       - name: Build (standalone Windows)
-        run: dotnet publish Frantics_PDF_Helper.csproj -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -o ./publish/standalone
+        run: dotnet publish Frantics_PDF_Helper/Frantics_PDF_Helper.csproj -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -o ./publish/standalone
 
       - name: Build (standalone Windows compressed)
-        run: dotnet publish Frantics_PDF_Helper.csproj -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -p:EnableCompressionInSingleFile=true -o ./publish/standalone_compressed
+        run: dotnet publish Frantics_PDF_Helper/Frantics_PDF_Helper.csproj -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -p:EnableCompressionInSingleFile=true -o ./publish/standalone_compressed
 
       - name: Zip normal build
         run: Compress-Archive -Path ./publish/normal/* -DestinationPath ./win64_normal-build.zip
 
-      - name: Move standalone exe
-        run: Move-Item -Path ./publish/standalone/Frantics_PDF_Helper.exe -Destination ./win64_standalone.exe
+      - name: Zip standalone build
+        run: Compress-Archive -Path ./publish/standalone/* -DestinationPath ./win64_normal-build.zip
+
+###      - name: Move standalone exe
+###        run: Move-Item -Path ./publish/standalone/Frantics_PDF_Helper.exe -Destination ./win64_standalone.exe
         
-      - name: Move standalone_compressed exe
-        run: Move-Item -Path ./publish/standalone_compressed/Frantics_PDF_Helper.exe -Destination ./win64_standalone_compressed.exe
+      - name: Zip standalone_compressed build
+        run: Compress-Archive -Path ./publish/standalone_compressed/* -DestinationPath ./win64_normal-build.zip
+        
+###      - name: Move standalone_compressed exe
+###        run: Move-Item -Path ./publish/standalone_compressed/Frantics_PDF_Helper.exe -Destination ./win64_standalone_compressed.exe
         
       - name: Get current date and time
         id: datetime
