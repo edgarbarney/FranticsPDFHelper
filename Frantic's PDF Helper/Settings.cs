@@ -2,6 +2,8 @@
 using System.Reflection;
 using Newtonsoft.Json;
 
+using Frantics_PDF_Helper.Windows;
+
 namespace Frantics_PDF_Helper
 {
 	public enum ImageFormat
@@ -60,7 +62,6 @@ namespace Frantics_PDF_Helper
 					Instance.Reset();
 					SaveSettings();
 				}
-				RestartApp();
 			}
 
 			Instance.Reset();
@@ -68,6 +69,15 @@ namespace Frantics_PDF_Helper
 
 		public static void SaveSettings()
 		{
+			var directory = Path.GetDirectoryName(settingsPath);
+			// Create directory
+			if (directory == null)
+			{
+				DialogueWindow.ShowDialogue("Error", "Failed to save settings. Directory is null.");
+				return;
+			}
+
+			Directory.CreateDirectory(directory);
 			File.WriteAllText(settingsPath, JsonConvert.SerializeObject(Instance));
 		}
 
@@ -96,7 +106,11 @@ namespace Frantics_PDF_Helper
 
 		public static void RestartApp()
 		{
-			System.Diagnostics.Process.Start(Assembly.GetExecutingAssembly().Location);
+			var appPath = Environment.ProcessPath;
+			if (appPath != null)
+			{
+				System.Diagnostics.Process.Start(appPath);
+			}
 			System.Windows.Application.Current.Shutdown();
 		}
 	}
