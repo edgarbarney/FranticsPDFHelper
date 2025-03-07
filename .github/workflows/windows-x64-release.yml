@@ -32,23 +32,11 @@ jobs:
       - name: Build (standalone Windows)
         run: dotnet publish Frantics_PDF_Helper/Frantics_PDF_Helper.csproj -c Release -r win-x64 --self-contained true -o ./publish/standalone
 
-###      - name: Build (standalone Windows compressed)
-###        run: dotnet publish Frantics_PDF_Helper/Frantics_PDF_Helper.csproj -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -p:EnableCompressionInSingleFile=true -o ./publish/standalone_compressed
-
       - name: Zip normal build
-        run: Compress-Archive -Path ./publish/normal/* -DestinationPath ./win64_normal-build.zip
+        run: Compress-Archive -Path ./publish/normal/* -DestinationPath ./win64_net8.0.zip
 
       - name: Zip standalone build
         run: Compress-Archive -Path ./publish/standalone/* -DestinationPath ./win64_standalone.zip
-
-###      - name: Move standalone exe
-###        run: Move-Item -Path ./publish/standalone/Frantics_PDF_Helper.exe -Destination ./win64_standalone.exe
-        
-###      - name: Zip standalone_compressed build
-###        run: Compress-Archive -Path ./publish/standalone_compressed/* -DestinationPath ./win64_standalone_compressed.zip
-        
-###      - name: Move standalone_compressed exe
-###        run: Move-Item -Path ./publish/standalone_compressed/Frantics_PDF_Helper.exe -Destination ./win64_standalone_compressed.exe
         
       - name: Get current date and time
         id: datetime
@@ -109,9 +97,8 @@ jobs:
             **Release Date:** ${{ env.RELEASE_NAME }}
 
             ### 📄 Included Files 📄:
-            - **win64_normal-build.zip**: Requires .NET Runtime.
-            - **win64_standalone.zip**: Self-contained, no .NET Runtime needed.
-###            - **win64_standalone_compressed.zip**: Compressed version of the standalone file. May take a while to run but file size is smaller.
+            - **win64_net8.0.zip**: x64 Build that Requires .NET Runtime.
+            - **win64_standalone.zip**: x64 Build that is Self-contained, no .NET Runtime needed.
             
             ### 🔄 Changes Since Last Release 🔄:
             Release Name: ${{ env.previous_tag }}
@@ -120,8 +107,7 @@ jobs:
           draft: false
           prerelease: true
           files: |
-            ./win64_normal-build.zip
+            ./win64_net8.0.zip
             ./win64_standalone.zip
-###            ./win64_standalone_compressed.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
