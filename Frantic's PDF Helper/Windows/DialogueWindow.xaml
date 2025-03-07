@@ -21,12 +21,12 @@
 				<ColumnDefinition Width="*"/>
 				<ColumnDefinition Width="*"/>
 			</Grid.ColumnDefinitions>
-            <Border Grid.Column="0" Padding="0,0,5,0">
-                <Button  Content="OK" Click="Button_Click" Padding="10"/>
+			<Border Grid.Column="0" Padding="0,0,5,0">
+				<Button  Content="OK" Click="Button_Click" Padding="10"/>
 			</Border>
-            <Border Grid.Column="1" Padding="5,0,0,0">
-                <Button Content="Cancel" Click="Button_Click" Padding="10"/>
-            </Border>
-        </Grid>
+			<Border Grid.Column="1" Padding="5,0,0,0">
+				<Button Content="Cancel" Click="Button_Click" Padding="10"/>
+			</Border>
+		</Grid>
 	</StackPanel>
 </Window>

@@ -77,8 +77,6 @@ namespace Frantics_PDF_Helper.Utilities.ShapeSaves
 				StrokeThickness = StrokeThickness
 			};
 		}
-
-
 	}
 
 	public class EllipseSave : ShapeSave // RectangleSave??

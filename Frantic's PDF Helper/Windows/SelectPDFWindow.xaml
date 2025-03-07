@@ -13,17 +13,17 @@
 		ResizeMode="NoResize"
 		
 		Closing="Window_Closing">
-    <Grid VerticalAlignment="Center" HorizontalAlignment="Center" Width="780" Height="410">
-        <Button x:Name="loadFileButton" Click="LoadFileButton_Click" Content="LoadPDFFile" Tag="LocKey:'SelectPDFWindow.LoadPDFFile'" HorizontalAlignment="Center" Margin="0,360,0,0" VerticalAlignment="Top" Height="38" Width="310"/>
-        <Grid Margin="90,322,90,52">
-            <TextBox x:Name="pdfFileDirTextBox" TextWrapping="Wrap" Text="" HorizontalAlignment="Left" VerticalAlignment="Center" Width="541" Height="22"/>
-            <Button x:Name="browseFileButton" Click="BrowseFileButton_Click" Content="Browz" Tag="LocKey:'SelectPDFWindow.Browse'" VerticalAlignment="Center" Height="30" Width="54" HorizontalAlignment="Right" Grid.Column="1" Margin="197,0,0,0"/>
-        </Grid>
-        <GroupBox Header="Settings" Margin="10,10,10,93">
-            <Grid Height="267" Margin="10,0,10,0">
-                <ComboBox x:Name="cacheModeComboBox" HorizontalAlignment="Right" Margin="0,14,10,0" VerticalAlignment="Top" Width="120"/>
-                <Label x:Name="cacheModeLabel" Content="CacheMode" Tag="LocKey:'SelectPDFWindow.CacheModeLabel'" VerticalContentAlignment="Center" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="30" Width="583"/>
-            </Grid>
-        </GroupBox>
-    </Grid>
+	<Grid VerticalAlignment="Center" HorizontalAlignment="Center" Width="780" Height="410">
+		<Button x:Name="loadFileButton" Click="LoadFileButton_Click" Content="LoadPDFFile" Tag="LocKey:'SelectPDFWindow.LoadPDFFile'" HorizontalAlignment="Center" Margin="0,360,0,0" VerticalAlignment="Top" Height="38" Width="310"/>
+		<Grid Margin="90,322,90,52">
+			<TextBox x:Name="pdfFileDirTextBox" TextWrapping="Wrap" Text="" HorizontalAlignment="Left" VerticalAlignment="Center" Width="541" Height="22"/>
+			<Button x:Name="browseFileButton" Click="BrowseFileButton_Click" Content="Browz" Tag="LocKey:'SelectPDFWindow.Browse'" VerticalAlignment="Center" Height="30" Width="54" HorizontalAlignment="Right" Grid.Column="1" Margin="197,0,0,0"/>
+		</Grid>
+		<GroupBox Header="Settings" Margin="10,10,10,93">
+			<Grid Height="267" Margin="10,0,10,0">
+				<ComboBox x:Name="cacheModeComboBox" HorizontalAlignment="Right" Margin="0,14,10,0" VerticalAlignment="Top" Width="120"/>
+				<Label x:Name="cacheModeLabel" Content="CacheMode" Tag="LocKey:'SelectPDFWindow.CacheModeLabel'" VerticalContentAlignment="Center" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="30" Width="583"/>
+			</Grid>
+		</GroupBox>
+	</Grid>
 </Window>

@@ -1,4 +1,4 @@
-﻿<Window x:Class="Frantics_PDF_Helper.Windows.SandboxWindow"
+<Window x:Class="Frantics_PDF_Helper.Windows.SandboxWindow"
 		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -15,161 +15,165 @@
 		WindowStartupLocation="CenterScreen"
 		ResizeMode="NoResize">
 
-    <Window.Resources>
-        <Style TargetType="Button">
-            <Setter Property="FontSize" Value="50"/>
-            <Setter Property="Background" Value="#DDD"/>
-            <Style.Triggers>
-                <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="Red"/>
-                </Trigger>
-            </Style.Triggers>
-        </Style>
+	<Window.Resources>
+		<Style TargetType="Button">
+			<Setter Property="FontSize" Value="50"/>
+			<Setter Property="Background" Value="#DDD"/>
+			<Style.Triggers>
+				<Trigger Property="IsMouseOver" Value="True">
+					<Setter Property="Background" Value="Red"/>
+				</Trigger>
+			</Style.Triggers>
+		</Style>
 
-        <!-- Fontawesome SVGs -->
+		<!-- Fontawesome SVGs -->
 
-        <DrawingImage x:Key="CloseButtonIcon">
-            <DrawingImage.Drawing>
-                <DrawingGroup ClipGeometry="M0,0 V512 H512 V0 H0 Z">
-                    <DrawingGroup.Transform>
-                        <TranslateTransform X="9.5367431640625E-07" Y="5.9604644775390625E-07" />
-                    </DrawingGroup.Transform>
-                    <GeometryDrawing Brush="#900" Geometry="F1 M512,512z M0,0z M496.8471,87.439015C516.83774,67.448375 516.83774,34.983599 496.8471,14.992975 476.85648,-4.9976591 444.39169,-4.9976591 424.40106,14.992975L256,183.55395 87.439016,15.152897C67.448383,-4.8377334 34.983601,-4.8377334 14.992972,15.152897 -4.99765880000001,35.14352 -4.99765880000001,67.608307 14.992972,87.598935L183.55395,256 15.152897,424.56098C-4.8377331,444.55162 -4.8377331,477.0164 15.152897,497.00703 35.143526,516.99766 67.608308,516.99766 87.598938,497.00703L256,328.44605 424.56098,496.8471C444.55162,516.83774 477.0164,516.83774 497.00703,496.8471 516.99766,476.85648 516.99766,444.39169 497.00703,424.40106L328.44605,256z" />
-                </DrawingGroup>
-            </DrawingImage.Drawing>
-        </DrawingImage>
+		<DrawingImage x:Key="CloseButtonIcon">
+			<DrawingImage.Drawing>
+				<DrawingGroup ClipGeometry="M0,0 V512 H512 V0 H0 Z">
+					<DrawingGroup.Transform>
+						<TranslateTransform X="9.5367431640625E-07" Y="5.9604644775390625E-07" />
+					</DrawingGroup.Transform>
+					<GeometryDrawing Brush="#900" Geometry="F1 M512,512z M0,0z M496.8471,87.439015C516.83774,67.448375 516.83774,34.983599 496.8471,14.992975 476.85648,-4.9976591 444.39169,-4.9976591 424.40106,14.992975L256,183.55395 87.439016,15.152897C67.448383,-4.8377334 34.983601,-4.8377334 14.992972,15.152897 -4.99765880000001,35.14352 -4.99765880000001,67.608307 14.992972,87.598935L183.55395,256 15.152897,424.56098C-4.8377331,444.55162 -4.8377331,477.0164 15.152897,497.00703 35.143526,516.99766 67.608308,516.99766 87.598938,497.00703L256,328.44605 424.56098,496.8471C444.55162,516.83774 477.0164,516.83774 497.00703,496.8471 516.99766,476.85648 516.99766,444.39169 497.00703,424.40106L328.44605,256z" />
+				</DrawingGroup>
+			</DrawingImage.Drawing>
+		</DrawingImage>
 
-        <DrawingImage x:Key="EraserButtonIcon">
-            <DrawingImage.Drawing>
-                <DrawingGroup ClipGeometry="M0,0 V512 H512 V0 H0 Z">
-                    <DrawingGroup.Transform>
-                        <TranslateTransform X="0" Y="2.384185791015625E-07" />
-                    </DrawingGroup.Transform>
-                    <GeometryDrawing Brush="#FF000000" Geometry="F1 M512,512z M0,0z M255.36678,21.751444L18.996734,292.39742C-6.332245,321.39935,-6.332245,368.38247,18.996734,397.38439L100.04947,490.19055C112.20738,504.11147,128.72188,511.88399,145.94558,511.88399L252.63124,512 262.15494,512 479.5789,512C497.51182,512 512,495.4109 512,474.87754 512,454.34417 497.51182,437.75507 479.5789,437.75507L353.84584,437.75507 486.26576,286.13301C511.59474,257.13108,511.59474,210.14796,486.26576,181.14603L347.159,21.751444C321.83002,-7.2504814,280.79708,-7.2504814,255.4681,21.751444z M262.15494,437.75507L252.63124,437.75507 145.84426,437.75507 64.79153,344.94891 191.13248,200.28731 330.34056,359.68189z" />
-                </DrawingGroup>
-            </DrawingImage.Drawing>
-        </DrawingImage>
+		<DrawingImage x:Key="EraserButtonIcon">
+			<DrawingImage.Drawing>
+				<DrawingGroup ClipGeometry="M0,0 V512 H512 V0 H0 Z">
+					<DrawingGroup.Transform>
+						<TranslateTransform X="0" Y="2.384185791015625E-07" />
+					</DrawingGroup.Transform>
+					<GeometryDrawing Brush="#FF000000" Geometry="F1 M512,512z M0,0z M255.36678,21.751444L18.996734,292.39742C-6.332245,321.39935,-6.332245,368.38247,18.996734,397.38439L100.04947,490.19055C112.20738,504.11147,128.72188,511.88399,145.94558,511.88399L252.63124,512 262.15494,512 479.5789,512C497.51182,512 512,495.4109 512,474.87754 512,454.34417 497.51182,437.75507 479.5789,437.75507L353.84584,437.75507 486.26576,286.13301C511.59474,257.13108,511.59474,210.14796,486.26576,181.14603L347.159,21.751444C321.83002,-7.2504814,280.79708,-7.2504814,255.4681,21.751444z M262.15494,437.75507L252.63124,437.75507 145.84426,437.75507 64.79153,344.94891 191.13248,200.28731 330.34056,359.68189z" />
+				</DrawingGroup>
+			</DrawingImage.Drawing>
+		</DrawingImage>
 
-        <DrawingImage x:Key="FreehandButtonIcon">
-            <DrawingImage.Drawing>
-                <DrawingGroup ClipGeometry="M0,0 V512 H512 V0 H0 Z">
-                    <DrawingGroup.Transform>
-                        <TranslateTransform X="0" Y="0.04999995231628418" />
-                    </DrawingGroup.Transform>
-                    <GeometryDrawing Brush="#FF000000" Geometry="F1 M512,512z M0,0z M410.3,231L421.6,219.7 387.7,185.8 325.6,123.7 291.7,89.8 280.4,101.1 257.8,123.7 58.6,322.9C48.2,333.3,40.6,346.2,36.4,360.3L1,480.7C-1.5,489.1 0.8,498.2 7.1,504.4 13.4,510.6 22.4,512.9 30.8,510.5L151.1,475.1C165.2,470.9,178.1,463.3,188.5,452.9L387.7,253.7 410.3,231z M160,399.4L150.9,422.1C146.9,425.2,142.4,427.5,137.6,429L59.4,452 82.4,373.9C83.8,369,86.2,364.5,89.3,360.6L112,351.5 112,383.5C112,392.3,119.2,399.5,128,399.5L160,399.5z M362.7,18.7L348.3,33.2 325.7,55.8 314.3,67.1 348.2,101 410.3,163.1 444.2,197 455.5,185.7 478.1,163.1 492.6,148.6C517.6,123.6,517.6,83.1,492.6,58.1L453.3,18.7C428.3,-6.3,387.8,-6.3,362.8,18.7z M315.3,186.7L171.3,330.7C165.1,336.9 154.9,336.9 148.7,330.7 142.5,324.5 142.5,314.3 148.7,308.1L292.7,164.1C298.9,157.9 309.1,157.9 315.3,164.1 321.5,170.3 321.5,180.5 315.3,186.7z" />
-                </DrawingGroup>
-            </DrawingImage.Drawing>
-        </DrawingImage>
+		<DrawingImage x:Key="FreehandButtonIcon">
+			<DrawingImage.Drawing>
+				<DrawingGroup ClipGeometry="M0,0 V512 H512 V0 H0 Z">
+					<DrawingGroup.Transform>
+						<TranslateTransform X="0" Y="0.04999995231628418" />
+					</DrawingGroup.Transform>
+					<GeometryDrawing Brush="#FF000000" Geometry="F1 M512,512z M0,0z M410.3,231L421.6,219.7 387.7,185.8 325.6,123.7 291.7,89.8 280.4,101.1 257.8,123.7 58.6,322.9C48.2,333.3,40.6,346.2,36.4,360.3L1,480.7C-1.5,489.1 0.8,498.2 7.1,504.4 13.4,510.6 22.4,512.9 30.8,510.5L151.1,475.1C165.2,470.9,178.1,463.3,188.5,452.9L387.7,253.7 410.3,231z M160,399.4L150.9,422.1C146.9,425.2,142.4,427.5,137.6,429L59.4,452 82.4,373.9C83.8,369,86.2,364.5,89.3,360.6L112,351.5 112,383.5C112,392.3,119.2,399.5,128,399.5L160,399.5z M362.7,18.7L348.3,33.2 325.7,55.8 314.3,67.1 348.2,101 410.3,163.1 444.2,197 455.5,185.7 478.1,163.1 492.6,148.6C517.6,123.6,517.6,83.1,492.6,58.1L453.3,18.7C428.3,-6.3,387.8,-6.3,362.8,18.7z M315.3,186.7L171.3,330.7C165.1,336.9 154.9,336.9 148.7,330.7 142.5,324.5 142.5,314.3 148.7,308.1L292.7,164.1C298.9,157.9 309.1,157.9 315.3,164.1 321.5,170.3 321.5,180.5 315.3,186.7z" />
+				</DrawingGroup>
+			</DrawingImage.Drawing>
+		</DrawingImage>
 
-        <DrawingImage x:Key="LineButtonIcon">
-            <DrawingImage.Drawing>
-                <DrawingGroup ClipGeometry="M0,0 V512 H512 V0 H0 Z">
-                    <GeometryDrawing Brush="#FF000000" Geometry="F1 M512,512z M0,0z M0.09508012,468.93523C0.09508012,492.70165,19.39341,511.99998,43.15982,511.99998L286.52797,511.99998C310.2944,511.99998 329.59272,492.70165 329.59272,468.93523 329.59272,445.16881 310.2944,425.87047 286.52797,425.87047L146.97155,425.87047 499.38003,73.462008C516.20665,56.635378 516.20665,29.446588 499.38003,12.619958 482.5534,-4.2066524 455.36462,-4.2066524 438.53799,12.619958L86.12951,365.02845 86.12951,225.47202C86.12951,201.70561 66.83117,182.40726 43.06476,182.40726 19.29834,182.40726 1.2499999E-07,201.70561 1.2499999E-07,225.47202L1.2499999E-07,468.84016z" />
-                </DrawingGroup>
-            </DrawingImage.Drawing>
-        </DrawingImage>
+		<DrawingImage x:Key="LineButtonIcon">
+			<DrawingImage.Drawing>
+				<DrawingGroup ClipGeometry="M0,0 V512 H512 V0 H0 Z">
+					<GeometryDrawing Brush="#FF000000" Geometry="F1 M512,512z M0,0z M0.09508012,468.93523C0.09508012,492.70165,19.39341,511.99998,43.15982,511.99998L286.52797,511.99998C310.2944,511.99998 329.59272,492.70165 329.59272,468.93523 329.59272,445.16881 310.2944,425.87047 286.52797,425.87047L146.97155,425.87047 499.38003,73.462008C516.20665,56.635378 516.20665,29.446588 499.38003,12.619958 482.5534,-4.2066524 455.36462,-4.2066524 438.53799,12.619958L86.12951,365.02845 86.12951,225.47202C86.12951,201.70561 66.83117,182.40726 43.06476,182.40726 19.29834,182.40726 1.2499999E-07,201.70561 1.2499999E-07,225.47202L1.2499999E-07,468.84016z" />
+				</DrawingGroup>
+			</DrawingImage.Drawing>
+		</DrawingImage>
 
-        <DrawingImage x:Key="RectButtonIcon">
-            <DrawingImage.Drawing>
-                <DrawingGroup ClipGeometry="M0,0 V512 H512 V0 H0 Z">
-                    <GeometryDrawing Brush="#FF000000" Geometry="F1 M512,512z M0,0z M438.85714,54.857142C448.91428,54.857142,457.14286,63.085714,457.14286,73.142858L457.14286,438.85714C457.14286,448.91428,448.91428,457.14286,438.85714,457.14286L73.142858,457.14286C63.085714,457.14286,54.857142,448.91428,54.857142,438.85714L54.857142,73.142858C54.857142,63.085714,63.085714,54.857142,73.142858,54.857142z M73.142858,0C32.8,0,0,32.8,0,73.142858L0,438.85714C0,479.2,32.8,512,73.142858,512L438.85714,512C479.2,512,512,479.2,512,438.85714L512,73.142858C512,32.8,479.2,0,438.85714,0z" />
-                </DrawingGroup>
-            </DrawingImage.Drawing>
-        </DrawingImage>
+		<DrawingImage x:Key="RectButtonIcon">
+			<DrawingImage.Drawing>
+				<DrawingGroup ClipGeometry="M0,0 V512 H512 V0 H0 Z">
+					<GeometryDrawing Brush="#FF000000" Geometry="F1 M512,512z M0,0z M438.85714,54.857142C448.91428,54.857142,457.14286,63.085714,457.14286,73.142858L457.14286,438.85714C457.14286,448.91428,448.91428,457.14286,438.85714,457.14286L73.142858,457.14286C63.085714,457.14286,54.857142,448.91428,54.857142,438.85714L54.857142,73.142858C54.857142,63.085714,63.085714,54.857142,73.142858,54.857142z M73.142858,0C32.8,0,0,32.8,0,73.142858L0,438.85714C0,479.2,32.8,512,73.142858,512L438.85714,512C479.2,512,512,479.2,512,438.85714L512,73.142858C512,32.8,479.2,0,438.85714,0z" />
+				</DrawingGroup>
+			</DrawingImage.Drawing>
+		</DrawingImage>
 
-        <DrawingImage x:Key="EllipseButtonIcon">
-            <DrawingImage.Drawing>
-                <DrawingGroup ClipGeometry="M0,0 V512 H512 V0 H0 Z">
-                    <GeometryDrawing Brush="#FF000000" Geometry="F1 M512,512z M0,0z M464,256A208,208,0,1,0,48,256A208,208,0,1,0,464,256z M0,256A256,256,0,1,1,512,256A256,256,0,1,1,0,256z" />
-                </DrawingGroup>
-            </DrawingImage.Drawing>
-        </DrawingImage>
+		<DrawingImage x:Key="EllipseButtonIcon">
+			<DrawingImage.Drawing>
+				<DrawingGroup ClipGeometry="M0,0 V512 H512 V0 H0 Z">
+					<GeometryDrawing Brush="#FF000000" Geometry="F1 M512,512z M0,0z M464,256A208,208,0,1,0,48,256A208,208,0,1,0,464,256z M0,256A256,256,0,1,1,512,256A256,256,0,1,1,0,256z" />
+				</DrawingGroup>
+			</DrawingImage.Drawing>
+		</DrawingImage>
 
-        <DrawingImage x:Key="ClearAllButtonIcon">
-            <DrawingImage.Drawing>
-                <DrawingGroup ClipGeometry="M0,0 V512 H448 V0 H0 Z">
-                    <GeometryDrawing Brush="#FF000000" Geometry="F1 M448,512z M0,0z M135.2,17.7L128,32 32,32C14.3,32 0,46.3 0,64 0,81.7 14.3,96 32,96L416,96C433.7,96 448,81.7 448,64 448,46.3 433.7,32 416,32L320,32 312.8,17.7C307.4,6.8,296.3,0,284.2,0L163.8,0C151.7,0,140.6,6.8,135.2,17.7z M416,128L32,128 53.2,467C54.8,492.3,75.8,512,101.1,512L346.9,512C372.2,512,393.2,492.3,394.8,467L416,128z" />
-                </DrawingGroup>
-            </DrawingImage.Drawing>
-        </DrawingImage>
+		<DrawingImage x:Key="ClearAllButtonIcon">
+			<DrawingImage.Drawing>
+				<DrawingGroup ClipGeometry="M0,0 V512 H448 V0 H0 Z">
+					<GeometryDrawing Brush="#FF000000" Geometry="F1 M448,512z M0,0z M135.2,17.7L128,32 32,32C14.3,32 0,46.3 0,64 0,81.7 14.3,96 32,96L416,96C433.7,96 448,81.7 448,64 448,46.3 433.7,32 416,32L320,32 312.8,17.7C307.4,6.8,296.3,0,284.2,0L163.8,0C151.7,0,140.6,6.8,135.2,17.7z M416,128L32,128 53.2,467C54.8,492.3,75.8,512,101.1,512L346.9,512C372.2,512,393.2,492.3,394.8,467L416,128z" />
+				</DrawingGroup>
+			</DrawingImage.Drawing>
+		</DrawingImage>
 
-        <DrawingImage x:Key="UndoButtonIcon">
-            <DrawingImage.Drawing>
-                <DrawingGroup ClipGeometry="M0,0 V512 H512 V0 H0 Z">
-                    <GeometryDrawing Brush="#FF000000" Geometry="F1 M512,512z M0,0z M121.04175,158.88799L176.54221,158.88799C196.0722,158.88799 211.85065,174.66645 211.85065,194.19643 211.85065,213.72641 196.0722,229.50487 176.54221,229.50487L35.308443,229.50487C15.77846,229.50487,0,213.72641,0,194.19643L0,52.962661C0,33.432679 15.77846,17.654219 35.308443,17.654219 54.838425,17.654219 70.616885,33.432679 70.616885,52.962661L70.616885,109.45617 90.036532,90.036523C186.58305,-6.5099958 343.04358,-6.5099958 439.59011,90.036523 536.13663,186.58305 536.13663,343.04358 439.59011,439.5901 343.04358,536.13663 186.58305,536.13663 90.036532,439.5901 76.244168,425.79774 76.244168,403.39895 90.036532,389.60659 103.82889,375.81423 126.22769,375.81423 140.02005,389.60659 208.98184,458.56839 320.75513,458.56839 389.71693,389.60659 458.67873,320.64479 458.67873,208.8715 389.71693,139.9097 320.75513,70.947899 208.98184,70.947899 140.02005,139.9097z" />
-                </DrawingGroup>
-            </DrawingImage.Drawing>
-        </DrawingImage>
+		<DrawingImage x:Key="UndoButtonIcon">
+			<DrawingImage.Drawing>
+				<DrawingGroup ClipGeometry="M0,0 V512 H512 V0 H0 Z">
+					<GeometryDrawing Brush="#FF000000" Geometry="F1 M512,512z M0,0z M121.04175,158.88799L176.54221,158.88799C196.0722,158.88799 211.85065,174.66645 211.85065,194.19643 211.85065,213.72641 196.0722,229.50487 176.54221,229.50487L35.308443,229.50487C15.77846,229.50487,0,213.72641,0,194.19643L0,52.962661C0,33.432679 15.77846,17.654219 35.308443,17.654219 54.838425,17.654219 70.616885,33.432679 70.616885,52.962661L70.616885,109.45617 90.036532,90.036523C186.58305,-6.5099958 343.04358,-6.5099958 439.59011,90.036523 536.13663,186.58305 536.13663,343.04358 439.59011,439.5901 343.04358,536.13663 186.58305,536.13663 90.036532,439.5901 76.244168,425.79774 76.244168,403.39895 90.036532,389.60659 103.82889,375.81423 126.22769,375.81423 140.02005,389.60659 208.98184,458.56839 320.75513,458.56839 389.71693,389.60659 458.67873,320.64479 458.67873,208.8715 389.71693,139.9097 320.75513,70.947899 208.98184,70.947899 140.02005,139.9097z" />
+				</DrawingGroup>
+			</DrawingImage.Drawing>
+		</DrawingImage>
 
-        <DrawingImage x:Key="RedoButtonIcon">
-            <DrawingImage.Drawing>
-                <DrawingGroup ClipGeometry="M0,0 V512 H512 V0 H0 Z">
-                    <DrawingGroup.Transform>
-                        <TranslateTransform X="1.1400532722473145" Y="0" />
-                    </DrawingGroup.Transform>
-                    <GeometryDrawing Brush="#FF000000" Geometry="F1 M512,512z M0,0z M390.68873,158.10173L335.06469,158.10173C315.49121,158.10173 299.67763,173.91533 299.67763,193.48879 299.67763,213.06226 315.49121,228.87586 335.06469,228.87586L476.61294,228.87586C496.1864,228.87586,512,213.06226,512,193.48879L512,51.940541C512,32.367072 496.1864,16.553478 476.61294,16.553478 457.03947,16.553478 441.22587,32.367072 441.22587,51.940541L441.22587,108.55985 421.76299,89.096957C325.00149,-7.6645424 168.19257,-7.6645424 71.431071,89.096957 -25.330428,185.85846 -25.330428,342.66737 71.431071,439.42887 168.19257,536.19038 325.00149,536.19038 421.76299,439.42887 435.58606,425.6058 435.58606,403.15714 421.76299,389.33407 407.93992,375.51099 385.49125,375.51099 371.66818,389.33407 302.55283,458.44942 190.53065,458.44942 121.4153,389.33407 52.299941,320.21871 52.299941,208.19653 121.4153,139.08118 190.53065,69.9658259999999 302.55283,69.9658259999999 371.66818,139.08118z" />
-                </DrawingGroup>
-            </DrawingImage.Drawing>
-        </DrawingImage>
+		<DrawingImage x:Key="RedoButtonIcon">
+			<DrawingImage.Drawing>
+				<DrawingGroup ClipGeometry="M0,0 V512 H512 V0 H0 Z">
+					<DrawingGroup.Transform>
+						<TranslateTransform X="1.1400532722473145" Y="0" />
+					</DrawingGroup.Transform>
+					<GeometryDrawing Brush="#FF000000" Geometry="F1 M512,512z M0,0z M390.68873,158.10173L335.06469,158.10173C315.49121,158.10173 299.67763,173.91533 299.67763,193.48879 299.67763,213.06226 315.49121,228.87586 335.06469,228.87586L476.61294,228.87586C496.1864,228.87586,512,213.06226,512,193.48879L512,51.940541C512,32.367072 496.1864,16.553478 476.61294,16.553478 457.03947,16.553478 441.22587,32.367072 441.22587,51.940541L441.22587,108.55985 421.76299,89.096957C325.00149,-7.6645424 168.19257,-7.6645424 71.431071,89.096957 -25.330428,185.85846 -25.330428,342.66737 71.431071,439.42887 168.19257,536.19038 325.00149,536.19038 421.76299,439.42887 435.58606,425.6058 435.58606,403.15714 421.76299,389.33407 407.93992,375.51099 385.49125,375.51099 371.66818,389.33407 302.55283,458.44942 190.53065,458.44942 121.4153,389.33407 52.299941,320.21871 52.299941,208.19653 121.4153,139.08118 190.53065,69.9658259999999 302.55283,69.9658259999999 371.66818,139.08118z" />
+				</DrawingGroup>
+			</DrawingImage.Drawing>
+		</DrawingImage>
 
-        <!-- Fontawesome SVGs End -->
+		
+		<!-- Fontawesome SVGs End -->
 
-    </Window.Resources>
+	</Window.Resources>
 
-    <Window.CommandBindings>
-        <CommandBinding Command="ApplicationCommands.Undo" Executed="Undo_Executed" CanExecute="Undo_CanExecute"/>
-        <CommandBinding Command="ApplicationCommands.Redo" Executed="Redo_Executed" CanExecute="Redo_CanExecute"/>
-    </Window.CommandBindings>
+	<Window.CommandBindings>
+		<CommandBinding Command="ApplicationCommands.Undo" Executed="Undo_Executed" CanExecute="Undo_CanExecute"/>
+		<CommandBinding Command="ApplicationCommands.Redo" Executed="Redo_Executed" CanExecute="Redo_CanExecute"/>
+	</Window.CommandBindings>
 
-    <Grid x:Name="mainGrid" Background="White">
-        <Canvas x:Name="drawCanvas" MouseDown="DrawCanvas_MouseDown" MouseMove="DrawCanvas_MouseMove" MouseUp="DrawCanvas_MouseUp" Background="Transparent">
-        </Canvas>
+	<Grid x:Name="mainGrid" Background="White">
+		<Canvas x:Name="drawCanvas" MouseDown="DrawCanvas_MouseDown" MouseMove="DrawCanvas_MouseMove" MouseUp="DrawCanvas_MouseUp" Background="Transparent">
+		</Canvas>
 
-        <Button x:Name="closeButton" Click="CloseButton_Click" FontFamily="ArialBlack" FontSize="100" VerticalAlignment="Top" HorizontalAlignment="Right" Height="64" Width="64">
-            <Image Source="{StaticResource CloseButtonIcon}" Width="42" Height="42"/>
-        </Button>
-        <Button Click="EraserButton_Click" Height="64" Width="64" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="79,0,0,10">
-            <Image Source="{StaticResource EraserButtonIcon}" Height="42" Width="42"/>
-        </Button>
-        <Button Click="FreehandButton_Click" Height="64" Width="64" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="10,0,0,10">
-            <Image Source="{StaticResource FreehandButtonIcon}" Height="42" Width="42"/>
-        </Button>
-        <Button Click="LineButton_Click" Height="64" Width="64" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="148,0,0,10">
-            <Image Source="{StaticResource LineButtonIcon}" Height="42" Width="42"/>
-        </Button>
-        <Button Click="RectangleButton_Click" Height="64" Width="64" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="217,0,0,10">
-            <Image Source="{StaticResource RectButtonIcon}" Height="42" Width="42"/>
-        </Button>
-        <Button Click="EllipseButton_Click" Height="64" Width="64" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="286,0,0,10">
-            <Image Source="{StaticResource EllipseButtonIcon}" Height="42" Width="42"/>
-        </Button>
+		<Button x:Name="closeButton" Click="CloseButton_Click" FontFamily="ArialBlack" FontSize="100" VerticalAlignment="Top" HorizontalAlignment="Right" Height="64" Width="64">
+			<Image Source="{StaticResource CloseButtonIcon}" Width="42" Height="42"/>
+		</Button>
+		<Button Click="EraserButton_Click" Height="64" Width="64" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="79,0,0,10">
+			<Image Source="{StaticResource EraserButtonIcon}" Height="42" Width="42"/>
+		</Button>
+		<Button Click="FreehandButton_Click" Height="64" Width="64" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="10,0,0,10">
+			<Image Source="{StaticResource FreehandButtonIcon}" Height="42" Width="42"/>
+		</Button>
+		<Button Click="LineButton_Click" Height="64" Width="64" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="148,0,0,10">
+			<Image Source="{StaticResource LineButtonIcon}" Height="42" Width="42"/>
+		</Button>
+		<Button Click="RectangleButton_Click" Height="64" Width="64" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="217,0,0,10">
+			<Image Source="{StaticResource RectButtonIcon}" Height="42" Width="42"/>
+		</Button>
+		<Button Click="EllipseButton_Click" Height="64" Width="64" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="286,0,0,10">
+			<Image Source="{StaticResource EllipseButtonIcon}" Height="42" Width="42"/>
+		</Button>
         <Button Click="ClearAllButton_Click" Height="64" Width="64" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="355,0,0,10">
             <Image Source="{StaticResource ClearAllButtonIcon}" Height="42" Width="42"/>
-        </Button>
-        <Button Command="ApplicationCommands.Undo" Height="64" Width="64" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="424,0,0,10">
-            <Image Source="{StaticResource UndoButtonIcon}" Height="42" Width="42"/>
-        </Button>
-        <Button Command="ApplicationCommands.Redo" Height="64" Width="64" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="424,0,0,79">
-            <Image Source="{StaticResource RedoButtonIcon}" Height="42" Width="42"/>
-        </Button>
+		</Button>
+		<Button Click="ClearAllButton_Click" Height="64" Width="64" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="355,0,0,10">
+			<Image Source="{StaticResource ClearAllButtonIcon}" Height="42" Width="42"/>
+		</Button>
+		<Button Command="ApplicationCommands.Undo" Height="64" Width="64" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="424,0,0,10">
+			<Image Source="{StaticResource UndoButtonIcon}" Height="42" Width="42"/>
+		</Button>
+		<Button Command="ApplicationCommands.Redo" Height="64" Width="64" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="424,0,0,79">
+			<Image Source="{StaticResource RedoButtonIcon}" Height="42" Width="42"/>
+		</Button>
 
-        <colorpicker:PortableColorPicker x:Name="MainColourPicker" Width="64" Height="64" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="10,0,0,79"/>
+		<colorpicker:PortableColorPicker x:Name="MainColourPicker" Width="64" Height="64" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="10,0,0,79"/>
 
-        <Button Click="ColourPresetButton_Click" Background="Black" Height="29" Width="29" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="79,0,0,79"/>
-        <Button Click="ColourPresetButton_Click" Background="White" Height="29" Width="29" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="114,0,0,79"/>
-        <Button Click="ColourPresetButton_Click" Background="DarkRed" Height="29" Width="29" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="148,0,0,79"/>
-        <Button Click="ColourPresetButton_Click" Background="Green" Height="29" Width="29" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="183,0,0,79"/>
-        <Button Click="ColourPresetButton_Click" Background="Blue" Height="29" Width="29" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="217,0,0,79"/>
-        <Button Click="ColourPresetButton_Click" Background="Yellow" Height="29" Width="29" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="252,0,0,79"/>
-        <Button Click="ColourPresetButton_Click" Background="Purple" Height="29" Width="29" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="286,0,0,79"/>
-        <Button Click="ColourPresetButton_Click" Background="Sienna" Height="29" Width="29" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="321,0,0,79"/>
-        <Button Click="ColourPresetButton_Click" Background="DimGray" Height="29" Width="29" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="79,0,0,114"/>
-        <Button Click="ColourPresetButton_Click" Background="Gainsboro" Height="29" Width="29" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="114,0,0,114"/>
-        <Button Click="ColourPresetButton_Click" Background="Red" Height="29" Width="29" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="148,0,0,114"/>
-        <Button Click="ColourPresetButton_Click" Background="Lime" Height="29" Width="29" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="183,0,0,114"/>
-        <Button Click="ColourPresetButton_Click" Background="Cyan" Height="29" Width="29" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="217,0,0,114"/>
-        <Button Click="ColourPresetButton_Click" Background="Gold" Height="29" Width="29" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="252,0,0,114"/>
-        <Button Click="ColourPresetButton_Click" Background="HotPink" Height="29" Width="29" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="286,0,0,114"/>
-        <Button Click="ColourPresetButton_Click" Background="Orange" Height="29" Width="29" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="321,0,0,114"/>
-    </Grid>
+		<Button Click="ColourPresetButton_Click" Background="Black" Height="29" Width="29" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="79,0,0,79"/>
+		<Button Click="ColourPresetButton_Click" Background="White" Height="29" Width="29" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="114,0,0,79"/>
+		<Button Click="ColourPresetButton_Click" Background="DarkRed" Height="29" Width="29" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="148,0,0,79"/>
+		<Button Click="ColourPresetButton_Click" Background="Green" Height="29" Width="29" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="183,0,0,79"/>
+		<Button Click="ColourPresetButton_Click" Background="Blue" Height="29" Width="29" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="217,0,0,79"/>
+		<Button Click="ColourPresetButton_Click" Background="Yellow" Height="29" Width="29" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="252,0,0,79"/>
+		<Button Click="ColourPresetButton_Click" Background="Purple" Height="29" Width="29" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="286,0,0,79"/>
+		<Button Click="ColourPresetButton_Click" Background="Sienna" Height="29" Width="29" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="321,0,0,79"/>
+		<Button Click="ColourPresetButton_Click" Background="DimGray" Height="29" Width="29" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="79,0,0,114"/>
+		<Button Click="ColourPresetButton_Click" Background="Gainsboro" Height="29" Width="29" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="114,0,0,114"/>
+		<Button Click="ColourPresetButton_Click" Background="Red" Height="29" Width="29" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="148,0,0,114"/>
+		<Button Click="ColourPresetButton_Click" Background="Lime" Height="29" Width="29" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="183,0,0,114"/>
+		<Button Click="ColourPresetButton_Click" Background="Cyan" Height="29" Width="29" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="217,0,0,114"/>
+		<Button Click="ColourPresetButton_Click" Background="Gold" Height="29" Width="29" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="252,0,0,114"/>
+		<Button Click="ColourPresetButton_Click" Background="HotPink" Height="29" Width="29" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="286,0,0,114"/>
+		<Button Click="ColourPresetButton_Click" Background="Orange" Height="29" Width="29" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="321,0,0,114"/>
+	</Grid>
 </Window>

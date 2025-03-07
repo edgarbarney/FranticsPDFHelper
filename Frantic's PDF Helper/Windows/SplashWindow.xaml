@@ -5,15 +5,15 @@
 		xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 		xmlns:local="clr-namespace:Frantics_PDF_Helper.Windows"
 		mc:Ignorable="d"
-        
+		
 		Title="Splash Window"
-        Height="300"
-        Width="533"
-        WindowStyle="None"
+		Height="300"
+		Width="533"
+		WindowStyle="None"
 		WindowStartupLocation="CenterScreen"
 		ResizeMode="NoResize">
 	<Grid>
-        <Image x:Name="splashImage" Source="Resources/Splash.png" Stretch="Fill" Width="534"/>
+		<Image x:Name="splashImage" Source="Resources/Splash.png" Stretch="Fill" Width="534"/>
 
-    </Grid>
+	</Grid>
 </Window>
