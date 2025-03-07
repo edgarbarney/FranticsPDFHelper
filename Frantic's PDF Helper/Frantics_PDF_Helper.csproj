@@ -9,6 +9,7 @@
     <UseWPF>true</UseWPF>
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <SupportedOSPlatformVersion>7.0</SupportedOSPlatformVersion>
+	<GenerateSatelliteAssemblies>false</GenerateSatelliteAssemblies>
   </PropertyGroup>
 
   <ItemGroup>
