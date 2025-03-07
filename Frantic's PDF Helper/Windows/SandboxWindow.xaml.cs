@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Windows;
@@ -43,7 +43,8 @@ namespace Frantics_PDF_Helper.Windows
 			Line,
 			Rectangle,
 			Ellipse,
-			Erase
+			Erase,
+			PaintBucket
 		}
 
 		private static readonly JsonSerializerSettings jsonSettings = new()
@@ -289,6 +290,28 @@ namespace Frantics_PDF_Helper.Windows
 			actionsHistory.RemoveRange(currentActionIndex, actionsHistory.Count - currentActionIndex);
 		}
 
+		private void CalculatePaintBucket()
+		{
+			// This fills shapes with the same
+			// colour as the first colour picker's colour
+
+			// Firstly we have to check if the point
+			// is inside the bounds of a shape
+			// If it is, we have to check for the shape's type
+
+			//Let's check if the point is inside a shape
+			foreach (var child in drawCanvas.Children)
+			{
+				if (child is Shape shape)
+				{
+					if (shape.IsMouseOver)
+					{
+						
+					}
+				}
+			}
+		}
+
 		private void DrawCanvas_MouseDown(object sender, MouseButtonEventArgs e)
 		{
 			if (e.ButtonState == MouseButtonState.Pressed)
@@ -361,6 +384,7 @@ namespace Frantics_PDF_Helper.Windows
 						Canvas.SetTop(currentDrawnShape, drawBrushCurrentPoint.Y);
 						DrawCanvasPushCurrentShape(currentDrawnShape, drawMode);
 						break;
+					case DrawMode.PaintBucket:
 					case DrawMode.Erase:
 						currentDrawnShape = new Line(); // Just to pass the null check
 						break;
@@ -428,6 +452,9 @@ namespace Frantics_PDF_Helper.Windows
 								}
 							}
 						}
+						break;
+					case DrawMode.PaintBucket:
+						CalculatePaintBucket();
 						break;
 				}
 			}
@@ -527,6 +554,11 @@ namespace Frantics_PDF_Helper.Windows
 		private void EllipseButton_Click(object sender, RoutedEventArgs e)
 		{
 			drawMode = DrawMode.Ellipse;
+		}
+
+		private void PaintBucketButton_Click(object sender, RoutedEventArgs e)
+		{
+			drawMode = DrawMode.PaintBucket;
 		}
 
 		private void ClearAllButton_Click(object sender, RoutedEventArgs e)

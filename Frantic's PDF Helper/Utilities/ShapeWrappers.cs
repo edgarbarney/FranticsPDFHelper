@@ -36,9 +36,11 @@ namespace Frantics_PDF_Helper.Utilities.ShapeSaves
 		// Let's return to Shape back
 		public Shape ToShape()
 		{
-			Shape shape = new Rectangle();
-			shape.Stroke = Stroke;
-			shape.StrokeThickness = StrokeThickness;
+			Shape shape = new Rectangle
+			{
+				Stroke = Stroke,
+				StrokeThickness = StrokeThickness
+			};
 			//shape.Margin = new System.Windows.Thickness(Position.X, Position.Y, 0, 0);
 			return shape;
 		}
@@ -178,7 +180,7 @@ namespace Frantics_PDF_Helper.Utilities.ShapeSaves
 
 		public Polyline ToPolyline()
 		{
-			Polyline polyline = new Polyline
+			Polyline polyline = new()
 			{
 				Points = Points,
 				Stroke = Stroke,

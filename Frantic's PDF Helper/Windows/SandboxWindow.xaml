@@ -1,4 +1,4 @@
-<Window x:Class="Frantics_PDF_Helper.Windows.SandboxWindow"
+﻿<Window x:Class="Frantics_PDF_Helper.Windows.SandboxWindow"
 		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 		xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -85,6 +85,14 @@
 			</DrawingImage.Drawing>
 		</DrawingImage>
 
+		<DrawingImage x:Key="PaintBucketButtonIcon">
+			<DrawingImage.Drawing>
+				<DrawingGroup ClipGeometry="M0,0 V576 H576 V0 H0 Z">
+					<GeometryDrawing Brush="#FF000000" Geometry="F1 M576,576z M0,0z M40.1625,10.54739C52.6625,-3.5157966,72.8625,-3.5157966,85.3625,10.54739L166.7625,102.01436 219.8625,42.27394C247.9625,10.659896,293.5625,10.659896,321.6625,42.27394L473.0625,212.71976C501.1625,244.3338,501.1625,295.63632,473.0625,327.25036L282.6625,541.57332C245.1625,583.76288,184.3625,583.76288,146.8625,541.57332L29.3625,409.37936C-8.13749999999999,367.1898,-8.13749999999999,298.78646,29.3625,256.5969L121.4625,152.97934 40.1625,61.399874C27.6625,47.336686,27.6625,24.498072,40.1625,10.434885z M216.1625,259.52204L166.7625,203.94434 74.6625,307.5619C70.4625,312.28712,67.6625,318.0249,66.2625,323.9877L385.4625,323.9877 427.7625,276.39788C430.8625,272.9102,430.8625,267.17242,427.7625,263.68476L276.4625,93.238928C273.3625,89.751258,268.2625,89.751258,265.1625,93.238928L212.0625,152.97934 261.4625,208.55706C273.9625,222.62024 273.9625,245.45886 261.4625,259.52204 248.9625,273.58524 228.6625,273.58524 216.1625,259.52204z M510.7625,576C475.4625,576 446.7625,543.71092 446.7625,503.99648 446.7625,475.6451 479.3625,414.44212 497.9625,381.70302 503.9625,371.1275 517.4625,371.1275 523.4625,381.70302 542.1625,414.44212 574.7625,475.6451 574.7625,503.99648 574.7625,543.71092 546.0625,576 510.7625,576z" />
+				</DrawingGroup>
+			</DrawingImage.Drawing>
+		</DrawingImage>
+
 		<DrawingImage x:Key="ClearAllButtonIcon">
 			<DrawingImage.Drawing>
 				<DrawingGroup ClipGeometry="M0,0 V512 H448 V0 H0 Z">
@@ -144,8 +152,8 @@
 		<Button Click="EllipseButton_Click" Height="64" Width="64" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="286,0,0,10">
 			<Image Source="{StaticResource EllipseButtonIcon}" Height="42" Width="42"/>
 		</Button>
-        <Button Click="ClearAllButton_Click" Height="64" Width="64" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="355,0,0,10">
-            <Image Source="{StaticResource ClearAllButtonIcon}" Height="42" Width="42"/>
+		<Button Click="PaintBucketButton_Click" Height="64" Width="64" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="355,0,0,79" Visibility="Collapsed">
+			<Image Source="{StaticResource PaintBucketButtonIcon}" Height="42" Width="42"/>
 		</Button>
 		<Button Click="ClearAllButton_Click" Height="64" Width="64" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="355,0,0,10">
 			<Image Source="{StaticResource ClearAllButtonIcon}" Height="42" Width="42"/>
