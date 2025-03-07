@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Windows;
@@ -36,46 +36,6 @@ namespace Frantics_PDF_Helper.Windows
 			public ActionType Action { get; set; } = action;
 			public object Data { get; set; } = data;
 		}
-
-		/*
-		public class ShapeSaveData
-		{
-			public List<ShapeSave> Shapes { get; set; } = [];
-
-			public ShapeSaveData() { }
-
-			public ShapeSaveData(List<ShapeSave> shapes)
-			{
-				Shapes = shapes;
-			}
-
-			public ShapeSaveData(Canvas canvas)
-			{
-				foreach (var child in canvas.Children)
-				{
-					if (child is Shape shape)
-					{
-						if (shape is Rectangle rect)
-						{
-							Shapes.Add(new RectangleSave(rect, canvas));
-						}
-						else if (shape is Ellipse ellipse)
-						{
-							Shapes.Add(new EllipseSave(ellipse, canvas));
-						}
-						else if (shape is Line line)
-						{
-							Shapes.Add(new LineSave(line, canvas));
-						}
-						else if (shape is Polyline polyline)
-						{
-							Shapes.Add(new PolylineSave(polyline, canvas));
-						}
-					}
-				}
-			}
-		}
-		*/
 
 		public enum DrawMode
 		{
@@ -199,44 +159,6 @@ namespace Frantics_PDF_Helper.Windows
 			{
 				var data = File.ReadAllText($"{exportDir}/save.json");
 				var saveData = JsonConvert.DeserializeObject<DrawingSaveTuple>(data, jsonSettings);
-
-				/*
-					if (saveData.shapeData == null)
-					{
-						return;
-					}
-
-				// Shapes
-				//
-				// Action history already contains the shapes as they were drawn/erased.
-				// So we don't need to load the shapes separately.
-				 
-					foreach(var shape in saveData.shapeData.Shapes)
-					{
-						if (shape is PolylineSave polyline)
-						{
-							drawCanvas.Children.Add(polyline.ToPolyline());
-						}
-						else if (shape is LineSave line)
-						{
-							drawCanvas.Children.Add(line.ToLine());
-						}
-						else if (shape is RectangleSave rect)
-						{
-							var newRect = rect.ToRectangle();
-							Canvas.SetLeft(newRect, rect.X);
-							Canvas.SetTop(newRect, rect.Y);
-							drawCanvas.Children.Add(newRect);
-						}
-						else if (shape is EllipseSave ellipse)
-						{
-							var newEllipse = ellipse.ToEllipse();
-							Canvas.SetLeft(newEllipse, ellipse.X);
-							Canvas.SetTop(newEllipse, ellipse.Y);
-							drawCanvas.Children.Add(newEllipse);
-						}
-					}
-				*/
 
 				currentActionIndex = saveData.actionIndex;
 
