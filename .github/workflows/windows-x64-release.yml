@@ -39,13 +39,13 @@ jobs:
         run: Compress-Archive -Path ./publish/normal/* -DestinationPath ./win64_normal-build.zip
 
       - name: Zip standalone build
-        run: Compress-Archive -Path ./publish/standalone/* -DestinationPath ./win64_normal-build.zip
+        run: Compress-Archive -Path ./publish/standalone/* -DestinationPath ./win64_standalone.zip
 
 ###      - name: Move standalone exe
 ###        run: Move-Item -Path ./publish/standalone/Frantics_PDF_Helper.exe -Destination ./win64_standalone.exe
         
       - name: Zip standalone_compressed build
-        run: Compress-Archive -Path ./publish/standalone_compressed/* -DestinationPath ./win64_normal-build.zip
+        run: Compress-Archive -Path ./publish/standalone_compressed/* -DestinationPath ./win64_standalone_compressed.zip
         
 ###      - name: Move standalone_compressed exe
 ###        run: Move-Item -Path ./publish/standalone_compressed/Frantics_PDF_Helper.exe -Destination ./win64_standalone_compressed.exe
@@ -110,8 +110,8 @@ jobs:
 
             ### 📄 Included Files 📄:
             - **win64_normal-build.zip**: Requires .NET Runtime.
-            - **win64_standalone.exe**: Self-contained, no .NET Runtime needed.
-            - **win64_standalone_compressed.exe**: Compressed version of the standalone file. May take a while to run but file size is smaller.
+            - **win64_standalone.zip**: Self-contained, no .NET Runtime needed.
+            - **win64_standalone_compressed.zip**: Compressed version of the standalone file. May take a while to run but file size is smaller.
             
             ### 🔄 Changes Since Last Release 🔄:
             Release Name: ${{ env.previous_tag }}
@@ -121,7 +121,7 @@ jobs:
           prerelease: true
           files: |
             ./win64_normal-build.zip
-            ./win64_standalone.exe
-            ./win64_standalone_compressed.exe
+            ./win64_standalone.zip
+            ./win64_standalone_compressed.zip
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
