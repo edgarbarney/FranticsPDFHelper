@@ -13,6 +13,11 @@ namespace Frantics_PDF_Helper.Utilities
 		/// <summary>
 		/// Gets the MD5 hash of a file.
 		/// </summary>
+		/// <remarks>
+		/// MD5 is used for simplicity and speed.
+		/// It's not recommended for security purposes.
+		/// But it's good enough for file comparison.
+		/// </remarks>
 		public static string GetMD5Hash(string filename)
 		{
 			var md5 = MD5.Create();
