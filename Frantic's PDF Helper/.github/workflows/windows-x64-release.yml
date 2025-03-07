@@ -1,0 +1,121 @@
+name: Release Build (Windows x64)
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: windows-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup .NET 8
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Build (normal)
+        run: dotnet publish Frantics_PDF_Helper.csproj -c Release -r win-x64 -o ./publish/normal
+
+      - name: Build (standalone Windows)
+        run: dotnet publish Frantics_PDF_Helper.csproj -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -o ./publish/standalone
+
+      - name: Build (standalone Windows compressed)
+        run: dotnet publish Frantics_PDF_Helper.csproj -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -p:IncludeNativeLibrariesForSelfExtract=true -p:EnableCompressionInSingleFile=true -o ./publish/standalone_compressed
+
+      - name: Zip normal build
+        run: Compress-Archive -Path ./publish/normal/* -DestinationPath ./win64_normal-build.zip
+
+      - name: Move standalone exe
+        run: Move-Item -Path ./publish/standalone/Frantics_PDF_Helper.exe -Destination ./win64_standalone.exe
+        
+      - name: Move standalone_compressed exe
+        run: Move-Item -Path ./publish/standalone_compressed/Frantics_PDF_Helper.exe -Destination ./win64_standalone_compressed.exe
+        
+      - name: Get current date and time
+        id: datetime
+        run: echo "release_name=$(date +'%Y-%m-%d_%H-%M-%S')" >> $GITHUB_ENV
+        shell: bash
+        
+      - name: Get previous release tag
+        id: prev_tag
+        run: |
+          git fetch --prune --unshallow --tags # Get older commits and ensure we have all tags
+          
+          last_tag=$(git tag --list '20*' --sort=-creatordate | head -n 1)
+          
+          if [ -z "$last_tag" ]; then
+            first_commit=$(git rev-list --max-parents=0 HEAD)
+            echo "previous_tag=$first_commit" >> $GITHUB_ENV
+            echo "No previous tag found. Using first commit: $first_commit"
+          else
+            echo "previous_tag=$last_tag" >> $GITHUB_ENV
+            echo "Previous tag found: $last_tag"
+          fi
+        shell: bash
+
+      - name: Get commit log
+        id: commit_log
+        run: |
+          echo "Fetching commit log from ${{ env.previous_tag }} to HEAD..."
+          
+          # Debugging: Print previous tag and all commits for verification
+          echo "=== Debug: Previous Tag ==="
+          echo "previous_tag=${{ env.previous_tag }}"
+          echo "=== Debug: Git Log Overview ==="
+          git log --oneline --graph --decorate --all
+
+          commit_log=$(git log --pretty=format:"- %h %s" ${{ env.previous_tag }}..HEAD)
+
+          if [ -z "$commit_log" ]; then
+            commit_log="No new commits since last release."
+          fi
+
+          echo "commit_log<<EOF" >> $GITHUB_ENV
+          echo "$commit_log" >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
+          
+          echo "=== Debug: Generated Commit Log ==="
+          echo "$commit_log"
+        shell: bash
+        
+      - name: Create GitHub Release
+        id: create_release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: "${{ env.release_name }}"
+          name: "Release ${{ env.release_name }}"
+          body: |
+            ## 🚀 Automated Release from GitHub Actions 🚀
+
+            **Release Date:** ${{ env.RELEASE_NAME }}
+
+            ### 📄 Included Files 📄:
+            - **win64_normal-build.zip**: Requires .NET Runtime.
+            - **win64_standalone.exe**: Self-contained, no .NET Runtime needed.
+            - **win64_standalone_compressed.exe**: Compressed version of the standalone file. May take a while to run but file size is smaller.
+            
+            ### 🔄 Changes Since Last Release 🔄:
+            Release Name: ${{ env.previous_tag }}
+            
+            ${{ env.commit_log }}
+          draft: false
+          prerelease: true
+          files: |
+            ./win64_normal-build.zip
+            ./win64_standalone.exe
+            ./win64_standalone_compressed.exe
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
