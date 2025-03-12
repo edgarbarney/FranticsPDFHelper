@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Windows;
@@ -505,7 +505,7 @@ namespace Frantics_PDF_Helper.Windows
 
 		private void CloseButton_Click(object sender, RoutedEventArgs e)
 		{
-			var result = DialogueWindow.ShowDialogue(Title, Localisation.GetLocalisedString("Dialogue.SaveBeforeQuit"), DialogueWindow.DialogueButton.Yes | DialogueWindow.DialogueButton.No | DialogueWindow.DialogueButton.Cancel);
+			var result = DialogueWindow.ShowDialogue(Title, Localisation.GetLocalisedString("Dialogue.SaveBeforeQuit"), DialogueWindow.DialogueButton.Yes | DialogueWindow.DialogueButton.No | DialogueWindow.DialogueButton.Cancel, DialogueWindow.DialogueManner.Question);
 			
 			switch(result)
 			{
@@ -563,7 +563,7 @@ namespace Frantics_PDF_Helper.Windows
 
 		private void ClearAllButton_Click(object sender, RoutedEventArgs e)
 		{
-			if (DialogueWindow.ShowDialogue(Title, Localisation.GetLocalisedString("Dialogue.IrreversibleActionQuestion"), DialogueWindow.DialogueButton.Yes | DialogueWindow.DialogueButton.No) == DialogueWindow.DialogueButton.Yes)
+			if (DialogueWindow.ShowDialogue(Title, Localisation.GetLocalisedString("Dialogue.IrreversibleActionQuestion"), DialogueWindow.DialogueButton.Yes | DialogueWindow.DialogueButton.No, DialogueWindow.DialogueManner.Warning) == DialogueWindow.DialogueButton.Yes)
 			{
 				DrawCanvasClear();
 			}

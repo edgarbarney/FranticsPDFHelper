@@ -1,4 +1,4 @@
-﻿using System.IO;
+using System.IO;
 using System.Reflection;
 using Newtonsoft.Json;
 
@@ -73,7 +73,7 @@ namespace Frantics_PDF_Helper
 			// Create directory
 			if (directory == null)
 			{
-				DialogueWindow.ShowDialogue("Error", "Failed to save settings. Directory is null.");
+				DialogueWindow.ShowDialogue("Error", Localisation.GetLocalisedString("Settings.NullDirectory"), DialogueWindow.DialogueManner.Error);
 				return;
 			}
 

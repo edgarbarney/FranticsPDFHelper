@@ -14,13 +14,15 @@
   "PDFCacheMode.OnPageChange": "On Page Change",
   "PDFCacheMode.FullPDF": "Full PDF",
   "SelectPDFWindow.LoadPDFFile": "Load PDF File",
-  "SelectPDFWindow.LoadPDFFile.Tooltip": "Select the chosen PDF file.",
+  "SelectPDFWindow.LoadPDFFile.Tooltip": "Load the selected PDF file.",
   "SelectPDFWindow.Browse": "Browse",
   "SelectPDFWindow.Browse.Tooltip": "Browse for a PDF file to open.",
+  "SelectPDFWindow.LanguageLabel": "Language",
   "SelectPDFWindow.CacheModeLabel": "Cache Mode",
   "OpenFileDialog.pdfFiles": "PDF Files",
   "OpenFileDialog.allFiles": "All files",
   "MainWindow.EnterPageNumber": "Enter page number: ",
-  "MainWindow.DeleteLastSaveQuestion": "Are you sure you want to delete the save?",
-  "MainWindow.NoSaveFound": "No save found."
+  "MainWindow.DeleteLastSaveQuestion": "Are you sure you want to delete the save file?",
+  "MainWindow.NoSaveFound": "No save file found.",
+  "Settings.NullDirectory": "Failed to save settings. Directory is null."
 }

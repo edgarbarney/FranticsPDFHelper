@@ -1,4 +1,4 @@
-﻿using System.IO;
+using System.IO;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -143,7 +143,7 @@ namespace Frantics_PDF_Helper.Windows
 
 		private void CloseButton_Click(object sender, RoutedEventArgs e)
 		{
-			if(DialogueWindow.ShowDialogue(Title, Localisation.GetLocalisedString("Dialogue.CloseAppQuestion"), DialogueWindow.DialogueButton.Yes | DialogueWindow.DialogueButton.No) == DialogueWindow.DialogueButton.Yes)
+			if(DialogueWindow.ShowDialogue(Title, Localisation.GetLocalisedString("Dialogue.CloseAppQuestion"), DialogueWindow.DialogueButton.Yes | DialogueWindow.DialogueButton.No, DialogueWindow.DialogueManner.Question) == DialogueWindow.DialogueButton.Yes)
 			{
 				CloseMainWindow();
 			}
@@ -193,7 +193,7 @@ namespace Frantics_PDF_Helper.Windows
 
 		private void DeleteLastSaveButton_Click(object sender, RoutedEventArgs e)
 		{
-			if (DialogueWindow.ShowDialogue(Title, Localisation.GetLocalisedString("MainWindow.DeleteLastSaveQuestion"), DialogueWindow.DialogueButton.Yes | DialogueWindow.DialogueButton.No) == DialogueWindow.DialogueButton.Yes)
+			if (DialogueWindow.ShowDialogue(Title, Localisation.GetLocalisedString("MainWindow.DeleteLastSaveQuestion"), DialogueWindow.DialogueButton.Yes | DialogueWindow.DialogueButton.No, DialogueWindow.DialogueManner.Question) == DialogueWindow.DialogueButton.Yes)
 			{
 				SandboxWindow.DeleteSave(exportFolderDir + pdfHash);
 				RefreshControlStyles();
