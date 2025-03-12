@@ -1,14 +1,16 @@
 ﻿using System;
+using System.Media;
 using System.Numerics;
 using System.Windows;
 using System.Windows.Controls;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.Window;
 
 namespace Frantics_PDF_Helper.Windows
 {
-    /// <summary>
-    /// Interaction logic for DialogueWindow.xaml
-    /// </summary>
-    public partial class DialogueWindow : Window
+	/// <summary>
+	/// Interaction logic for DialogueWindow.xaml
+	/// </summary>
+	public partial class DialogueWindow : Window
     {
 		[Flags]
 		public enum DialogueButton
@@ -30,18 +32,49 @@ namespace Frantics_PDF_Helper.Windows
 			Input
 		}
 
+		public enum DialogueManner
+		{
+			Normal,
+			Warning,
+			Error,
+			Success,
+			Question
+		}
+
+		// To store cutom properties for buttons
+		public class DialogueButtonHelper
+		{
+			public static readonly DependencyProperty ButtonAnswerTag = DependencyProperty.RegisterAttached("ButtonAnswerTag", typeof(DialogueButton), typeof(DialogueButtonHelper), new FrameworkPropertyMetadata(null));
+
+			public static DialogueButton GetAnswerTag(DependencyObject dependencyObject)
+			{
+				return (DialogueButton)dependencyObject.GetValue(ButtonAnswerTag);
+			}
+
+			public static void SetAnswerTag(DependencyObject dependencyObject, DialogueButton value)
+			{
+				dependencyObject.SetValue(ButtonAnswerTag, value);
+
+				if (dependencyObject is Button button) // To access content property
+				{
+					button.Content = Localisation.GetLocalisedString("Dialogue." + value.ToString());
+				}
+			}
+		}
+
 		public DialogueButton DialogueResult { get; private set; } = DialogueButton.None;
 		public string InputText { get => inputTextBox.Text; set => inputTextBox.Text = value; }
 		public string DescriptionText { get => descriptionTextBlock.Text; set => descriptionTextBlock.Text = value; }
 		public DialogueButton Buttons { get; set; } = DialogueButton.Default;
 		public DialogueType Type{ get; set; } = DialogueType.Normal;
+		public DialogueManner Manner { get; set; } = DialogueManner.Normal;
 
         public DialogueWindow()
         {
             InitializeComponent();
         }
 
-		public DialogueWindow(string title, string desc, string defaultInput, DialogueButton dialogueButtons, DialogueType dialogueType)
+		public DialogueWindow(string title, string desc, string defaultInput, DialogueButton dialogueButtons, DialogueType dialogueType, DialogueManner dialogueManner)
 		{
 			InitializeComponent();
 			Title = title;
@@ -49,6 +82,7 @@ namespace Frantics_PDF_Helper.Windows
 			InputText = defaultInput;
 			Buttons = dialogueButtons;
 			Type = dialogueType;
+			Manner = dialogueManner;
 			if (dialogueType == DialogueType.Input)
 			{
 				inputTextBox.Visibility = Visibility.Visible;
@@ -119,16 +153,16 @@ namespace Frantics_PDF_Helper.Windows
 				switch (setFlags[i])
 				{
 					case DialogueButton.OK:
-						button.Content = "OK";
+						DialogueButtonHelper.SetAnswerTag(button, DialogueButton.OK);
 						break;
 					case DialogueButton.Yes:
-						button.Content = "Yes";
+						DialogueButtonHelper.SetAnswerTag(button, DialogueButton.Yes);
 						break;
 					case DialogueButton.No:
-						button.Content = "No";
+						DialogueButtonHelper.SetAnswerTag(button, DialogueButton.No);
 						break;
 					case DialogueButton.Cancel:
-						button.Content = "Cancel";
+						DialogueButtonHelper.SetAnswerTag(button, DialogueButton.Cancel);
 						break;
 				}
 			}
@@ -139,7 +173,8 @@ namespace Frantics_PDF_Helper.Windows
 			// Check which button was clicked
 			if (sender is Button button)
 			{
-				DialogueResult = button.Content switch
+				DialogueResult = DialogueButtonHelper.GetAnswerTag(button); 
+				/* switch
 				{
 					"OK" => DialogueButton.OK,
 					"Yes" => DialogueButton.Yes,
@@ -147,9 +182,39 @@ namespace Frantics_PDF_Helper.Windows
 					"Cancel" => DialogueButton.Cancel,
 					_ => DialogueButton.Cancel,
 				};
+				*/
 			}
 
 			Close();
+		}
+
+
+		/// <summary>
+		/// Shows the dialogue window.
+		/// Basically a wrapper for ShowDialog() with some extra stuff like sounds and animations.
+		/// </summary>
+		public void Appear()
+		{
+			// Play sounds, do animations, style the window, etc.
+			switch(Manner)
+			{
+				case DialogueManner.Warning:
+					SystemSounds.Exclamation.Play();
+					break;
+				case DialogueManner.Error:
+					SystemSounds.Exclamation.Play();
+					break;
+				case DialogueManner.Success:
+					SystemSounds.Asterisk.Play();
+					break;
+				case DialogueManner.Question:
+					SystemSounds.Question.Play();
+					break;
+				default:
+					break;
+			}
+
+			this.ShowDialog();
 		}
 
 		/// <summary>
@@ -161,8 +226,8 @@ namespace Frantics_PDF_Helper.Windows
 		/// <returns>Returns input value if OK was clicked, null if Cancel was clicked or the window was closed somehow.</returns>
 		public static string? ShowInputDialogue(string title, string desc, string defaultInput = "")
 		{
-			var dialogue = new DialogueWindow(title, desc, defaultInput, DialogueButton.Default, DialogueType.Input);
-			dialogue.ShowDialog();
+			var dialogue = new DialogueWindow(title, desc, defaultInput, DialogueButton.Default, DialogueType.Input, DialogueManner.Normal);
+			dialogue.Appear();
 
 			if (dialogue.DialogueResult == DialogueButton.None || dialogue.DialogueResult == DialogueButton.Cancel)
 			{
@@ -178,10 +243,10 @@ namespace Frantics_PDF_Helper.Windows
 		/// <param name="title">Title of the dialogue window.</param>
 		/// <param name="desc">Description of the dialogue window.</param>
 		/// <returns>Returns true if OK was clicked, false if Cancel was clicked or the window was closed somehow.</returns>
-		public static bool ShowDialogue(string title, string desc)
+		public static bool ShowDialogue(string title, string desc, DialogueManner dialogueManner = DialogueManner.Normal)
 		{
-			var dialogue = new DialogueWindow(title, desc, "", DialogueButton.Default, DialogueType.Normal);
-			dialogue.ShowDialog();
+			var dialogue = new DialogueWindow(title, desc, "", DialogueButton.Default, DialogueType.Normal, dialogueManner);
+			dialogue.Appear();
 
 			return dialogue.DialogueResult == DialogueButton.OK;
 		}
@@ -195,10 +260,10 @@ namespace Frantics_PDF_Helper.Windows
 		///		What buttons will dialogue window make use of.
 		/// </param>
 		/// <returns>Returns clicked button if any got clicked, returns <see cref="DialogueButton.None"/> if the window was closed somehow.</returns>
-		public static DialogueButton ShowDialogue(string title, string desc, DialogueButton dialogueButtons = DialogueButton.Default)
+		public static DialogueButton ShowDialogue(string title, string desc, DialogueButton dialogueButtons = DialogueButton.Default, DialogueManner dialogueManner = DialogueManner.Normal)
 		{
-			var dialogue = new DialogueWindow(title, desc, "", dialogueButtons, DialogueType.Normal);
-			dialogue.ShowDialog();
+			var dialogue = new DialogueWindow(title, desc, "", dialogueButtons, DialogueType.Normal, dialogueManner);
+			dialogue.Appear();
 
 			return dialogue.DialogueResult;
 		}
