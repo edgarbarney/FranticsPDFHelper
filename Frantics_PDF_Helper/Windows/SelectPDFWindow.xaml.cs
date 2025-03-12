@@ -30,6 +30,12 @@ namespace Frantics_PDF_Helper.Windows
 			//Localisation.SetTaggedButtonContent(loadFileButton, true);
 			//Localisation.SetTaggedButtonContent(browseFileButton, true);
 
+			foreach (Localisation.Language lang in Localisation.GetAvailableLanguages())
+			{
+				languageComboBox.Items.Add(lang.LanguageName);
+			}
+			languageComboBox.SelectedIndex = 0; // Default to English
+
 			foreach (PDFCacheMode mode in Enum.GetValues(typeof(PDFCacheMode)))
 			{
 				cacheModeComboBox.Items.Add(Localisation.GetLocalisedEnumString<PDFCacheMode>(mode));
@@ -38,8 +44,16 @@ namespace Frantics_PDF_Helper.Windows
 			// This is done in SplashWindow
 			//Settings.LoadSettings();
 			cacheModeComboBox.SelectedIndex = (int)Settings.Instance.CacheMode;
+			// Find the index of currentlanguage in Localisation.GetAvailableLanguages() using settings
+			languageComboBox.SelectedIndex = Localisation.GetAvailableLanguages().FindIndex(x => x.LanguageCode == Settings.Instance.ChosenLanguage);
 			pdfFileDirTextBox.Text = Settings.Instance.LastPDFPath;
+		}
 
+		private void languageComboBox_DropDownClosed(object sender, EventArgs e)
+		{
+			string test = languageComboBox.Text;
+			Localisation.SetCurrentLanguageByName(languageComboBox.Text);
+			Localisation.LocaliseWindow(this);
 		}
 
 		private void BrowseFileButton_Click (object sender, RoutedEventArgs e)

@@ -1,5 +1,5 @@
 using System.IO;
-using System.Reflection;
+using System.Globalization;
 using Newtonsoft.Json;
 
 using Frantics_PDF_Helper.Windows;
@@ -37,16 +37,20 @@ namespace Frantics_PDF_Helper
 		public const string settingsPath = "Cache/Settings.json";
 
 		public ImageFormat ExportFormat { get; set; } = ImageFormat.Png;
-		public PDFCacheMode CacheMode { get; set; } = PDFCacheMode.NoCache;
+		public PDFCacheMode CacheMode { get; set; } = PDFCacheMode.OnPageChange;
 		public string LastPDFPath { get; set; } = "";
 		public bool IsFirstRun { get; set; } = true;
+		//public string SystemLanguage { get; set; } = Localisation.Language.PlaceholderLanguage.LanguageCode;
+		public string ChosenLanguage { get; set; } = "";
 
 		public void Reset()
 		{
 			ExportFormat = ImageFormat.Png;
-			CacheMode = PDFCacheMode.NoCache;
+			CacheMode = PDFCacheMode.OnPageChange;
 			LastPDFPath = "";
 			Instance.IsFirstRun = false;
+			//SystemLanguage = CultureInfo.CurrentUICulture.Name;
+			ChosenLanguage = "";
 		}
 
 		public static void ResetSettings(bool restart)
@@ -96,7 +100,7 @@ namespace Frantics_PDF_Helper
 			if (temp != null)
 			{
 				Instance = temp;
-				
+				//Instance.SystemLanguage = CultureInfo.CurrentUICulture.Name;
 			}
 			//else
 			//{

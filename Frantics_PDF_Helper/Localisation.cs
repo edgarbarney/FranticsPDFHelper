@@ -3,6 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using Newtonsoft.Json;
 using Frantics_PDF_Helper.Utilities;
+using Frantics_PDF_Helper.Windows;
 
 namespace Frantics_PDF_Helper
 {
@@ -54,6 +55,7 @@ namespace Frantics_PDF_Helper
 			/// <param name="langName">Language Code to check for.</param>
 			public readonly bool IsLanguageName(string langName) => langName == this.LanguageName;
 
+			public static Language PlaceholderLanguage => new("English", "en-GB");
 		}
 
 		/// <summary>
@@ -78,11 +80,10 @@ namespace Frantics_PDF_Helper
 		/// </remarks>
 		public static Dictionary<string, Dictionary<string, string>> MainLocalisationData = [];
 
-		public static Language defaultLanguage = new("English", "en-GB");
+		public static Language defaultLanguage = Language.PlaceholderLanguage;
 		public static Language currentLanguage = defaultLanguage;
 
 		public const string languageDataPath = "Resources/Localisation";
-		public const string selectedLanguageFile = "Resources/Localisation/SelectedLanguage.txt"; //Path.Combine(languageDataPath, "SelectedLanguage.txt");
 
 		private static void AddNewLanguage(string langName, string langCode)
 		{
@@ -152,19 +153,20 @@ namespace Frantics_PDF_Helper
 				} 
 			}
 
-			if (File.Exists(selectedLanguageFile))
+			if (!String.IsNullOrEmpty(Settings.Instance.ChosenLanguage))
 			{
-				var selectedLang = File.ReadAllText(selectedLanguageFile);
-				if (AvailableLanguages.Any(lang => lang.IsLanguageCode(selectedLang)))
-				{
-					currentLanguage = AvailableLanguages.First(lang => lang.IsLanguageCode(selectedLang));
-				}
+				var selectedLang = Settings.Instance.ChosenLanguage;
+				SetCurrentLanguage(selectedLang);
 			}
 			else
 			{
-				//var selectedLang = File.Create(selectedLangPath);
-				File.WriteAllText(selectedLanguageFile, defaultLanguage.LanguageCode);
+				SetCurrentLanguage(defaultLanguage.LanguageCode);
 			}
+		}
+
+		public static List<Language> GetAvailableLanguages()
+		{
+			return AvailableLanguages;
 		}
 
 		public static string GetCurrentLanguageName()
@@ -245,7 +247,7 @@ namespace Frantics_PDF_Helper
 
 			if (tagValue == null)
 			{
-				// TODO: Log error, or throw exception?
+				//DialogueWindow.ShowDialogue("Error", "Button tag is problematic.", DialogueWindow.DialogueManner.Error);
 				return;
 			}
 
@@ -360,7 +362,46 @@ namespace Frantics_PDF_Helper
 			if (AvailableLanguages.Any(lang => lang.IsLanguageCode(langCode)))
 			{
 				currentLanguage = AvailableLanguages.First(lang => lang.IsLanguageCode(langCode));
-				File.WriteAllText(selectedLanguageFile, langCode);
+				Settings.Instance.ChosenLanguage = currentLanguage.LanguageCode;
+			}
+			else 
+			{
+				// Couldn't find a direct match. Try to match the parent language.
+				// We assume the parent language is in the characters before the first hyphen.
+				//
+				// For example, "en-GB" will match "en-US", "en-CA", etc.
+				// "tr-TR" will match "tr-AZ", "tr-IR", etc.
+				// "bs-Latn-BA" will match "bs-Cyrl-BA", "bs-Latn-HR", etc.
+				//
+				// If no match is found, default to English.
+
+				string parentLangCode = langCode.Split('-')[0];
+				if (AvailableLanguages.Any(lang => lang.IsLanguageCode(parentLangCode)))
+				{
+					currentLanguage = AvailableLanguages.First(lang => lang.IsLanguageCode(parentLangCode));
+					Settings.Instance.ChosenLanguage = currentLanguage.LanguageCode;
+				}
+				else
+				{
+					DialogueWindow.ShowDialogue("Error", "Failed to set language. Defaulting to English.", DialogueWindow.DialogueManner.Error);
+					currentLanguage = defaultLanguage;
+					Settings.Instance.ChosenLanguage = currentLanguage.LanguageCode;
+				}
+			}
+		}
+
+		public static void SetCurrentLanguageByName(string langName)
+		{
+			if (AvailableLanguages.Any(lang => lang.IsLanguageName(langName)))
+			{
+				string langCode = AvailableLanguages.First(lang => lang.IsLanguageName(langName)).LanguageCode;
+				SetCurrentLanguage(langCode);
+			}
+			else
+			{
+				DialogueWindow.ShowDialogue("Error", "Failed to set language. Defaulting to English.", DialogueWindow.DialogueManner.Error);
+				currentLanguage = defaultLanguage;
+				Settings.Instance.ChosenLanguage = currentLanguage.LanguageCode;
 			}
 		}
 	}
