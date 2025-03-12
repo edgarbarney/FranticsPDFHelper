@@ -20,7 +20,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Resources\Localisation\de-DE\BaseStrings.json" />
     <None Remove="Resources\Localisation\en-GB\BaseStrings.json" />
+    <None Remove="Resources\Localisation\tr-TR\BaseStrings.json" />
     <None Remove="Resources\Splash.png" />
   </ItemGroup>
 
@@ -39,7 +41,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="Resources\Localisation\de-DE\BaseStrings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\Localisation\en-GB\BaseStrings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Localisation\tr-TR\BaseStrings.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
