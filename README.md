@@ -18,7 +18,7 @@ You can get the latest version [here](https://github.com/edgarbarney/FranticsPDF
 ### Step 1: Load a PDF File.  
 ### Step 2: Use the scissors button to activate cut mode.  
 ### Step 3: Cut your desired part, such as a question or an image. (See the screenshot below)
-![Cutting a part from PDF Page](https://i.ibb.co/8gM5NZKf/PDFCut.png)
+![Cutting a part from PDF page](https://i.ibb.co/3m1N4Zrj/PDFCut.png)
 ### Step 5: Click on the tick button to complete the cut, or draw the cut box again to change the target area to cut.
 ### Step 6: Draw!
-![Cutting a part from PDF Page](https://i.ibb.co/hhtHw0T/PDFCut-Edit.png)
+![Drawing on the cut part](https://i.ibb.co/bq8LDtG/PDFCut-Edit.png)
